@@ -1,67 +1,98 @@
-import { useRef } from 'react';
-import { motion, useMotionValue } from 'framer-motion';
+import React from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import { useLanguage } from '@/context/LanguageContext';
 import { Sparkles, Zap, Syringe, Sun, Target, Waves, ArrowDown, Phone } from 'lucide-react';
+
+interface DermatologyService {
+  icon: React.ElementType;
+  title: string;
+  description: string;
+  image: string;
+  href?: string;
+}
 
 const DermatologyLaser = () => {
   const { language } = useLanguage();
   const isRTL = language === 'ar';
 
-  // نغماته ثلاث تتناوب على البطاقات لتعطي إيقاعاً بصرياً بدل التكرار الرتيب
   const tints = [
     { soft: 'from-[#c9a15a]/25 to-[#c9a15a]/5', ring: '#c9a15a', dot: 'bg-[#c9a15a]' },
     { soft: 'from-[#e9b9c4]/30 to-[#e9b9c4]/5', ring: '#c98a97', dot: 'bg-[#c98a97]' },
     { soft: 'from-[#8a7469]/20 to-[#8a7469]/5', ring: '#8a7469', dot: 'bg-[#8a7469]' },
   ];
 
-  const services = [
-    {
-      icon: Sparkles,
-      title: language === 'ar' ? 'علاج البشرة' : 'Skin Treatment',
-      description:
-        language === 'ar'
-          ? 'علاجات متقدمة لحب الشباب والتصبغات والندبات'
-          : 'Advanced treatments for acne, pigmentation, and scars',
-      image: '/images/64b91e60ee991bc3355749ae_laser.jpeg',
-    },
-    {
-      icon: Zap,
-      title: language === 'ar' ? 'إزالة الشعر بالليزر' : 'Laser Hair Removal',
-      description:
-        language === 'ar'
-          ? 'تقنية Motus Pro للإزالة الآمنة والدائمة'
-          : 'Motus Pro technology for safe, permanent removal',
-      image: 'https://placehold.co/700x560/faf3ec/c98a97?text=+',
-    },
-    {
-      icon: Syringe,
-      title: language === 'ar' ? 'البوتوكس والفيلر' : 'Botox & Fillers',
-      description:
-        language === 'ar' ? 'حقن تجميلية لتجديد شباب الوجه' : 'Aesthetic injectables for facial rejuvenation',
-      image: 'https://placehold.co/700x560/faf3ec/8a7469?text=+',
-    },
-    {
-      icon: Sun,
-      title: language === 'ar' ? 'علاج التصبغات' : 'Pigmentation Treatment',
-      description:
-        language === 'ar' ? 'تقنيات متطورة لتوحيد لون البشرة' : 'Advanced techniques for even skin tone',
-      image: 'https://placehold.co/700x560/faf3ec/c9a15a?text=+',
-    },
-    {
-      icon: Target,
-      title: language === 'ar' ? 'علاج حب الشباب' : 'Acne Treatment',
-      description:
-        language === 'ar' ? 'برامج علاجية شاملة للحصول على بشرة صافية' : 'Comprehensive programs for clear skin',
-      image: 'https://placehold.co/700x560/faf3ec/c98a97?text=+',
-    },
-    {
-      icon: Waves,
-      title: language === 'ar' ? 'شد البشرة' : 'Skin Tightening',
-      description:
-        language === 'ar' ? 'تقنيات RF لشد البشرة بدون جراحة' : 'RF techniques for non-surgical skin tightening',
-      image: 'https://placehold.co/700x560/faf3ec/8a7469?text=+',
-    },
-  ];
+  const services: DermatologyService[] = [
+  {
+    icon: Sparkles,
+    title: language === "ar" ? "علاج البشرة" : "Skin Treatment",
+    description:
+      language === "ar"
+        ? "علاجات متقدمة لحب الشباب والتصبغات والندبات"
+        : "Advanced treatments for acne, pigmentation, and scars",
+    image: "/images/64b91e60ee991bc3355749ae_laser.jpeg",
+  },
+  {
+    icon: Zap,
+    title:
+      language === "ar"
+        ? "إزالة الشعر بالليزر"
+        : "Laser Hair Removal",
+    description:
+      language === "ar"
+        ? "تقنيات متقدمة لإزالة الشعر حسب نوع البشرة"
+        : "Advanced hair removal technology selected for every skin type",
+    image: "",
+  },
+  {
+    icon: Syringe,
+    title:
+      language === "ar"
+        ? "البوتوكس والفيلر"
+        : "Botox & Fillers",
+    description:
+      language === "ar"
+        ? "إجراءات تجميلية مدروسة للحصول على نتيجة طبيعية ومتناسقة"
+        : "Carefully planned aesthetic procedures for natural, balanced results",
+    image: "",
+  },
+  {
+    icon: Sun,
+    title:
+      language === "ar"
+        ? "علاج التصبغات"
+        : "Pigmentation Treatment",
+    description:
+      language === "ar"
+        ? "تقنيات متخصصة للمساعدة في توحيد لون البشرة"
+        : "Specialized techniques designed to improve uneven skin tone",
+    image: "",
+  },
+  {
+    icon: Target,
+    title:
+      language === "ar"
+        ? "علاج حب الشباب"
+        : "Acne Treatment",
+    description:
+      language === "ar"
+        ? "خطط علاج مناسبة لطبيعة البشرة ودرجة الحالة"
+        : "Treatment plans tailored to the skin and severity of every case",
+    image: "",
+  },
+  {
+    icon: Waves,
+    title:
+      language === "ar"
+        ? "شد البشرة"
+        : "Skin Tightening",
+    description:
+      language === "ar"
+        ? "تقنيات غير جراحية لتحسين تماسك ومظهر البشرة"
+        : "Non-surgical technologies designed to improve skin firmness",
+    image: "",
+  },
+];
 
   return (
     <>
@@ -167,11 +198,13 @@ const DermatologyLaser = () => {
               transition={{ duration: 0.5, ease: 'easeOut' }}
             />
             <a
-              href="tel:0572260062"
+              href="tel:01551820062"
               className="relative z-10 flex items-center gap-3 px-8 py-4 rounded-full border border-[#c9a15a]/40 bg-white/70 backdrop-blur-md text-[#3d2f2a] group-hover:text-white font-bold transition-colors duration-300"
             >
               <Phone className="w-4 h-4" />
-              {language === 'ar' ? 'احجزي استشارتك المجانية' : 'Book a Free Consultation'}
+              {language === "ar"
+                ? "احجز استشارتك"
+                : "Book Your Consultation"}
             </a>
           </div>
         </div>
@@ -187,90 +220,118 @@ const ServiceCapsule = ({
   tint,
   isRTL,
 }: {
-  service: { icon: React.ElementType; title: string; description: string; image: string };
+  service: DermatologyService;
   index: number;
-  tint: { soft: string; ring: string; dot: string };
+  tint: {
+    soft: string;
+    ring: string;
+    dot: string;
+  };
   isRTL: boolean;
 }) => {
   const Icon = service.icon;
-  const cardRef = useRef<HTMLDivElement>(null);
-  const rotateX = useMotionValue(0);
-  const rotateY = useMotionValue(0);
+  const isAvailable = Boolean(service.href);
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const el = cardRef.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const px = (e.clientX - rect.left) / rect.width - 0.5;
-    const py = (e.clientY - rect.top) / rect.height - 0.5;
-    rotateY.set(px * 8);
-    rotateX.set(py * -8);
-  };
+  const cardContent = (
+    <div
+      className={`group relative flex min-h-[330px] flex-col overflow-hidden border bg-white p-7 transition-all duration-500 md:p-8 ${
+        isAvailable
+          ? "cursor-pointer border-[#3d2f2a]/10 hover:-translate-y-1 hover:border-[#c9a15a]/60 hover:shadow-[0_24px_60px_-30px_rgba(61,47,42,0.35)]"
+          : "cursor-default border-[#3d2f2a]/8"
+      }`}
+    >
+      <div
+        className={`absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r ${tint.soft}`}
+      />
 
-  const handleMouseLeave = () => {
-    rotateX.set(0);
-    rotateY.set(0);
-  };
+      <div className="mb-10 flex items-start justify-between">
+        <div
+          className="flex h-14 w-14 items-center justify-center rounded-full border bg-[#fdfbf8]"
+          style={{ borderColor: `${tint.ring}55` }}
+        >
+          <Icon
+            className="h-6 w-6"
+            strokeWidth={1.5}
+            style={{ color: tint.ring }}
+          />
+        </div>
+
+        <span className="text-xs font-medium tracking-[0.2em] text-[#3d2f2a]/25">
+          {String(index + 1).padStart(2, "0")}
+        </span>
+      </div>
+
+      <div className="mt-auto">
+        <h3
+          className={`mb-4 text-2xl font-semibold leading-tight text-[#3d2f2a] ${
+            isRTL ? "font-mudir" : "font-neometric"
+          }`}
+        >
+          {service.title}
+        </h3>
+
+        <p className="max-w-sm text-sm leading-7 text-[#7a675d]">
+          {service.description}
+        </p>
+
+        <div className="mt-8 flex items-center justify-between border-t border-[#3d2f2a]/10 pt-5">
+          <span
+            className={`text-[10px] font-semibold uppercase tracking-[0.2em] ${
+              isAvailable
+                ? "text-[#a97c3f]"
+                : "text-[#3d2f2a]/35"
+            }`}
+          >
+            {isAvailable
+              ? isRTL
+                ? "عرض التفاصيل"
+                : "View Details"
+              : isRTL
+                ? "قريبًا"
+                : "Coming Soon"}
+          </span>
+
+          <span
+            className={`h-2 w-2 rounded-full ${
+              isAvailable ? tint.dot : "bg-[#3d2f2a]/15"
+            }`}
+          />
+        </div>
+      </div>
+
+      {isAvailable && (
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#c9a15a]/8 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+      )}
+    </div>
+  );
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 35 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.7, delay: (index % 3) * 0.12, ease: [0.16, 1, 0.3, 1] }}
-      style={{ perspective: 1000 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{
+        duration: 0.7,
+        delay: (index % 3) * 0.12,
+        ease: [0.16, 1, 0.3, 1],
+      }}
     >
-      <motion.div
-        ref={cardRef}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
-        className="group relative bg-white rounded-[1.75rem] border border-black/5 shadow-lg shadow-black/[0.04] overflow-hidden transition-shadow duration-500 hover:shadow-2xl hover:shadow-black/10"
-      >
-        {/* نافذة الصورة (يفضّل استبدالها بصورة حقيقية للعلاج) */}
-        <div className={`relative h-52 overflow-hidden bg-gradient-to-br ${tint.soft}`}>
-          <img
-            src={service.image}
-            alt={service.title}
-            className="absolute inset-0 w-full h-full object-cover mix-blend-multiply opacity-80 transition-transform duration-700 group-hover:scale-110"
-          />
-          {/* أيقونة العلاج بحجم كبير كخلفية زخرفية */}
-          <Icon className="absolute -bottom-4 -right-4 w-28 h-28 opacity-10" style={{ color: tint.ring }} />
-
-          {/* خط المسح الليزري يعبر الصورة عند التحويم */}
-          <motion.div
-            className="absolute inset-x-0 h-8 bg-gradient-to-b from-transparent via-white/60 to-transparent opacity-0 group-hover:opacity-100 pointer-events-none"
-            style={{ boxShadow: `0 0 20px 6px ${tint.ring}55` }}
-            initial={{ top: '-10%' }}
-            animate={{ top: ['-10%', '110%'] }}
-            transition={{ duration: 1.4, repeat: Infinity, ease: 'linear' }}
-          />
-        </div>
-
-        {/* شارة الأيقونة العائمة - عمق بصري عبر preserve-3d */}
-        <div
-          className="relative -mt-8 mb-2 flex px-7"
-          style={{ transform: 'translateZ(50px)' }}
+      {service.href ? (
+        <Link
+          to={service.href}
+          className="block"
+          aria-label={service.title}
         >
-          <div
-            className="w-16 h-16 rounded-2xl bg-white shadow-md flex items-center justify-center border-2"
-            style={{ borderColor: `${tint.ring}55` }}
-          >
-            <Icon className="w-7 h-7" style={{ color: tint.ring }} />
-          </div>
+          {cardContent}
+        </Link>
+      ) : (
+        <div aria-disabled="true">
+          {cardContent}
         </div>
-
-        <div className="relative px-7 pb-8" style={{ transform: 'translateZ(30px)' }}>
-          <h3 className="text-lg font-bold text-[#3d2f2a] mb-2 font-cairo">{service.title}</h3>
-          <p className="text-sm text-[#7a675d] leading-relaxed">{service.description}</p>
-
-          <div className={`mt-5 h-[3px] w-10 rounded-full ${tint.dot} transition-all duration-500 group-hover:w-full`} />
-        </div>
-      </motion.div>
+      )}
     </motion.div>
   );
 };
-
 // ================= أيقونة عائمة بعمق ثلاثي الأبعاد في الهيرو =================
 const FloatingIcon = ({
   icon: Icon,

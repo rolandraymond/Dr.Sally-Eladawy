@@ -1,4 +1,4 @@
-import HeroSection from '@/components/home/HeroSection';
+// import HeroSection from '@/components/home/HeroSection';
 import ServicesSection from '@/components/home/ServicesSection';
 import TechnologiesSection from '@/components/home/TechnologiesSection';
 import WhyUsSection from '@/components/home/WhyUsSection';
@@ -12,9 +12,10 @@ const Index = () => {
     <>
 
     <VideoHero />
-      {/* <HeroSection /> */}
+       
       <RealResults />
       <ServicesSection />
+      {/* <HeroSection /> */}
       <VideoGallery />
       {/* <TechnologiesSection /> */}
       <WhyUsSection />

@@ -18,7 +18,6 @@ import {
   Star,
   ShieldCheck,
   HeartPulse,
-  BadgeCheck,
 } from "lucide-react";
 
 const EditorialHeroSection = () => {
@@ -84,20 +83,24 @@ const EditorialHeroSection = () => {
     },
   };
 
-  const headlineTop = isRTL ? "د. سالي العدوي" : "Dr. Sally El Adawy";
+  const headlineTop = isRTL ? "خبرة طبية" : "Medical Expertise";
   const headlineBottomWords = isRTL
-    ? ["أخصائية", "الجلدية", "والتجميل", "والليزر"]
-    : ["Cosmetic", "Dermatology", "&", "Laser"];
+    ? ["ونتائج", "تفرق"]
+    : ["Results", "That", "Make", "a", "Difference"];
 
   const specimens = [
     {
       label: isRTL ? "دبلومة الجلدية" : "Dermatology Diploma",
-      note: isRTL ? "جامعة المنوفية" : "Menoufia University",
+      note: isRTL
+        ? "الأمراض الجلدية والتجميل والتناسلية – جامعة المنوفية"
+        : "Dermatology, Venereology & Aesthetics – Menoufia University",
       icon: ShieldCheck,
     },
     {
       label: isRTL ? "دبلومة الليزر" : "Laser Diploma",
-      note: isRTL ? "المعهد القومي لعلوم الليزر" : "National Institute of Laser",
+      note: isRTL
+        ? "المعهد القومي لعلوم الليزر – جامعة القاهرة"
+        : "National Institute of Laser Sciences – Cairo University",
       icon: Sparkles,
     },
     {
@@ -111,14 +114,25 @@ const EditorialHeroSection = () => {
     ? ["جلدية", "ليزر", "تجميل", "تغذية", "شعر", "بوتوكس", "فيلر"]
     : ["DERMATOLOGY", "LASER", "AESTHETICS", "NUTRITION", "HAIR", "BOTOX", "FILLERS"];
 
-  const heroImage = "/images/OES02643.jpg";
+  const heroImage = "/images/website-header.png";
 
   return (
     <section
       dir={isRTL ? "rtl" : "ltr"}
-      className="relative min-h-[100svh] overflow-hidden bg-[#FAF6F0] text-[#211D19] pt-28 lg:pt-32"
+      className="relative overflow-hidden bg-[#FAF6F0] text-[#211D19]"
       style={{ fontFamily: "'Manrope', ui-sans-serif, system-ui" }}
     >
+
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <img
+          src={heroImage}
+          alt=""
+          aria-hidden="true"
+          className={`h-full w-full object-cover object-top transition-transform duration-500 ${
+            isRTL ? "-scale-x-100" : "scale-x-100"
+          }`}
+        />
+      </div>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,420;0,9..144,600;0,9..144,700;1,9..144,500&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
         .eh-display { font-family: 'Fraunces', ui-serif, Georgia, serif; }
@@ -134,25 +148,7 @@ const EditorialHeroSection = () => {
         }
       `}</style>
 
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,#ffffff,#FAF6F0_38%,#F0E4D6_100%)]" />
-      <div
-        className="absolute inset-0 opacity-[0.35]"
-        style={{
-          clipPath: isRTL
-            ? "polygon(0 0, 38% 0, 22% 100%, 0 100%)"
-            : "polygon(100% 0, 62% 0, 78% 100%, 100% 100%)",
-          background: "linear-gradient(180deg,#211D19,#4A2436)",
-        }}
-      />
-      <motion.div
-        style={{ x: orbShiftX, y: orbShiftY }}
-        className="absolute -top-24 left-[-8rem] h-[26rem] w-[26rem] rounded-full bg-[#B8874A]/25 blur-3xl"
-      />
-      <motion.div
-        style={{ x: useTransform(orbShiftX, (v) => -v), y: useTransform(orbShiftY, (v) => -v) }}
-        className="absolute right-[-8rem] top-6 h-[24rem] w-[24rem] rounded-full bg-[#A24B3B]/20 blur-3xl"
-      />
-      <div className="absolute inset-0 opacity-[0.12] [background-image:linear-gradient(rgba(33,29,25,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(33,29,25,0.12)_1px,transparent_1px)] [background-size:44px_44px]" />
+
 
       <div
         className={`absolute top-1/2 z-20 hidden -translate-y-1/2 lg:block ${isRTL ? "right-4" : "left-4"}`}
@@ -161,11 +157,13 @@ const EditorialHeroSection = () => {
           className="eh-mono whitespace-nowrap text-[10px] font-medium uppercase tracking-[0.4em] text-[#4A2436]/70"
           style={{ writingMode: "vertical-rl", transform: isRTL ? "rotate(0deg)" : "rotate(180deg)" }}
         >
-          {isRTL ? "د. سالي العدوي — أخصائية الجلدية والتجميل" : "Dr. Sally El Adawy — Cosmetic Dermatology"}
+          {isRTL
+            ? "د. سالي العدوي — أخصائية الجلدية والتجميل والليزر"
+            : "Dr. Sally El-Adawy — Dermatology, Aesthetics & Laser Specialist"}
         </div>
       </div>
 
-      <div className="absolute left-0 right-0 top-20 z-20 overflow-hidden border-y border-[#211D19]/10 bg-[#211D19] py-2">
+      {/* <div className="absolute left-0 right-0 top-20 z-20 overflow-hidden border-y border-[#211D19]/10 bg-[#211D19] py-2">
         <div className={`eh-marquee-track flex w-max gap-8 ${isRTL ? "rtl" : ""}`}>
           {[...marqueeWords, ...marqueeWords].map((w, i) => (
             <span
@@ -177,7 +175,7 @@ const EditorialHeroSection = () => {
             </span>
           ))}
         </div>
-      </div>
+      </div> */}
 
       <div
         className="relative z-10 mx-auto flex min-h-[100svh] max-w-7xl items-center px-4 py-16 sm:px-6 lg:px-8"
@@ -185,37 +183,45 @@ const EditorialHeroSection = () => {
         onMouseLeave={resetField}
       >
         <motion.div variants={container} initial="hidden" animate="visible" className="w-full">
-          <div className="grid items-center gap-10 lg:grid-cols-[1fr_1fr] lg:gap-14">
-            <div className="order-2 lg:order-1">
+          <div className="relative z-10 grid min-h-[calc(100svh-92px)] items-center lg:grid-cols-2">
+            <div className="relative z-20 max-w-xl py-20 lg:py-24">
               <div className="max-w-xl">
                 <motion.div variants={fadeUp} className="mb-6 flex items-center gap-3">
-                  <span className="eh-mono text-[11px] font-semibold uppercase tracking-[0.35em] text-[#A24B3B]">
-                    {isRTL ? "عن د. سالي العدوي" : "About Dr. Sally El Adawy"}
+                  <span className="eh-mono text-[11px]  font-special   tracking-[0.35em] text-[#A24B3B]">
+                    {isRTL ? "د. سالي العدوي" : "Dr. Sally El-Adawy"}
                   </span>
                   <span className="h-px flex-1 bg-[#211D19]/15" />
                 </motion.div>
 
-                <h1
-                  className="eh-display text-6xl leading-[0.98] tracking-tight text-[#211D19] md:text-7xl lg:text-[6rem]"
-                  style={{ perspective: 800 }}
+            <h1 className="flex flex-col tracking-tight text-[#211D19]">
+                <motion.span
+                  variants={wordIn}
+                  className={`block whitespace-nowrap text-4xl font-semibold leading-tight md:text-5xl lg:text-[4rem] ${
+                    isRTL ? "font-mudir" : "font-neometric"
+                  }`}
                 >
-                  <motion.span variants={wordIn} className="block font-semibold">
-                    {headlineTop}
-                  </motion.span>
-                  <span className="mt-1 flex flex-wrap gap-x-4 italic text-[#A24B3B]">
-                    {headlineBottomWords.map((w, i) => (
-                      <motion.span key={i} variants={wordIn} className="inline-block font-medium">
-                        {w}
-                      </motion.span>
-                    ))}
-                  </span>
-                </h1>
+                  {isRTL ? "خبرة طبية" : "Medical Expertise"}
+                </motion.span>
+
+                <motion.span
+                  variants={wordIn}
+                  className={`mt-5 block leading-tight text-[#aa1920] md:mt-6 ${
+                    isRTL
+                      ? "font-mudir text-3xl md:text-4xl lg:text-[3.2rem]"
+                      : "font-mersin whitespace-nowrap text-2xl md:text-3xl lg:text-[2.3rem]"
+                  }`}
+                >
+                  {isRTL
+                    ? "ونتائج تفرق"
+                    : "Results That Make a Difference"}
+                </motion.span>
+              </h1>
 
                 <motion.p variants={fadeUp} className="mt-7 text-base leading-8 text-[#211D19]/70 md:text-lg">
                   {t.hero.description ||
                     (isRTL
-                      ? "أخصائية الجلدية والتجميل والليزر. دبلومة الأمراض الجلدية والتجميل والتناسلية – جامعة المنوفية. دبلومة الليزر – المعهد القومي لعلوم الليزر، جامعة القاهرة. رعاية طبية، أحدث التقنيات، واهتمام يبدأ من أول استشارة وحتى الوصول للنتيجة المناسبة."
-                      : "Specialist in Dermatology, Cosmetics, and Laser. Diploma in Dermatology, Venereology and Andrology – Menoufia University. Laser Diploma – National Institute of Laser Science, Cairo University. Medical care, latest technologies, and attention from the first consultation until reaching the desired result.")}
+                      ? "رعاية طبية متخصصة في الجلدية والتجميل والليزر، مع خطط علاج بتتحدد حسب احتياجات كل حالة، وباستخدام أحدث التقنيات للحصول على نتائج طبيعية وآمنة."
+                      : "Specialized care in dermatology, aesthetics, and laser treatments, with personalized treatment plans based on each case and the latest technologies for natural-looking, safe results.")}
                 </motion.p>
 
                 <motion.div variants={fadeUp} className="mt-8 flex flex-wrap items-center gap-4">
@@ -239,125 +245,43 @@ const EditorialHeroSection = () => {
 
                   <div className="inline-flex items-center gap-2 rounded-full border border-[#211D19]/10 bg-white/70 px-4 py-3 text-sm font-semibold text-[#211D19]/80 shadow-sm backdrop-blur-md">
                     <Star className="h-4 w-4 fill-[#B8874A] text-[#B8874A]" />
-                    {isRTL ? "رعاية متخصصة بمعايير طبية عالية" : "Specialized Care with High Medical Standards"}
+                    {isRTL
+                      ? "خبرة تدي ثقة من أول زيارة"
+                      : "Expertise You Can Trust From Your First Visit"}
                   </div>
                 </motion.div>
 
-                <motion.div variants={fadeUp} className="mt-12 flex flex-col divide-y divide-[#211D19]/10 border-y border-[#211D19]/10">
-                  {specimens.map((s) => {
-                    const Icon = s.icon;
-                    return (
-                      <div key={s.label} className="flex items-center gap-4 py-3">
-                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#F0E4D6] text-[#A24B3B]">
-                          <Icon className="h-4 w-4" />
-                        </div>
-                        <div className="eh-display text-base font-semibold text-[#211D19]">{s.label}</div>
-                        <div className="eh-mono ms-auto text-[11px] uppercase tracking-[0.2em] text-[#211D19]/50">
-                          {s.note}
-                        </div>
+              <motion.div
+                variants={fadeUp}
+                className="mt-12 divide-y divide-[#211D19]/10 border-y border-[#211D19]/10"
+              >
+                {specimens.map((s) => {
+                  const Icon = s.icon;
+
+                  return (
+                    <div
+                      key={s.label}
+                      className="grid grid-cols-[36px_160px_minmax(0,1fr)] items-center gap-x-4 py-4"
+                    >
+                      <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#F0E4D6] text-[#A24B3B]">
+                        <Icon className="h-4 w-4" />
                       </div>
-                    );
-                  })}
-                </motion.div>
+
+                      <div className="eh-display whitespace-nowrap text-sm font-semibold text-[#211D19]">
+                        {s.label}
+                      </div>
+
+                      <div className="eh-mono whitespace-nowrap text-[9px] uppercase tracking-[0.14em] text-[#211D19]/50">
+                        {s.note}
+                      </div>
+                    </div>
+                  );
+                })}
+              </motion.div>
               </div>
             </div>
 
-            <motion.div variants={fadeUp} className="order-1 lg:order-2">
-              <div className="relative mx-auto max-w-[640px]" style={{ perspective: 1600 }}>
-                {!prefersReducedMotion && (
-                  <>
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-                      className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-[#B8874A]/40 opacity-70"
-                    />
-                    <motion.div
-                      animate={{ rotate: -360 }}
-                      transition={{ duration: 55, repeat: Infinity, ease: "linear" }}
-                      className="absolute left-1/2 top-1/2 h-[470px] w-[470px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-[#A24B3B]/30 opacity-60"
-                    />
-                  </>
-                )}
 
-                <motion.div
-                  style={{
-                    rotateX: prefersReducedMotion ? 0 : stageRotateX,
-                    rotateY: prefersReducedMotion ? 0 : stageRotateY,
-                    transformStyle: "preserve-3d",
-                  }}
-                  className="relative mx-auto w-[min(100%,480px)]"
-                >
-                  <div
-                    style={{ transform: "translateZ(-90px) translateX(6%) rotateY(14deg)", transformStyle: "preserve-3d" }}
-                    className="absolute inset-6 hidden rounded-[2.4rem] border border-white/70 bg-white/40 shadow-[0_30px_80px_rgba(74,36,54,0.15)] backdrop-blur-sm md:block"
-                  />
-                  <div
-                    style={{ transform: "translateZ(-40px) translateX(-4%) rotateY(-8deg)", transformStyle: "preserve-3d" }}
-                    className="absolute inset-3 hidden rounded-[2.6rem] border border-white/80 bg-[#F0E4D6]/50 shadow-[0_24px_60px_rgba(184,135,74,0.14)] backdrop-blur-sm md:block"
-                  />
-
-                  <div
-                    style={{ transform: "translateZ(40px)" }}
-                    className="relative overflow-hidden rounded-[2.6rem] border border-white/90 bg-white shadow-[0_32px_100px_rgba(33,29,25,0.25)]"
-                  >
-                    <img
-                      src={heroImage}
-                      alt={isRTL ? "الدكتورة سالي العدوي" : "Dr. Sally El Adawy"}
-                      className="h-[680px] w-full object-cover object-top"
-                    />
-                    {!prefersReducedMotion && (
-                      <div
-                        className="eh-sweep pointer-events-none absolute -inset-1/2 h-[200%] w-[200%] opacity-40"
-                        style={{
-                          background:
-                            "linear-gradient(115deg, transparent 40%, rgba(255,255,255,0.65) 50%, transparent 60%)",
-                        }}
-                      />
-                    )}
-                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(to_top,rgba(33,29,25,0.55),transparent)]" />
-
-                    <div className="absolute bottom-6 left-6 z-20 rounded-full border border-white/30 bg-white/15 px-5 py-3 backdrop-blur-md">
-                      <div className="eh-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-[#F0E4D6]">
-                        {isRTL ? "د. سالي العدوي" : "Dr. Sally El Adawy"}
-                      </div>
-                      <div className="mt-1 text-[11px] font-medium tracking-[0.1em] text-white/80">
-                        {isRTL ? "أخصائية الجلدية والتجميل والليزر" : "Dermatology, Cosmetics & Laser Specialist"}
-                      </div>
-                    </div>
-                  </div>
-
-                  <motion.div
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3, duration: 0.7 }}
-                    style={{ transform: "translateZ(90px)" }}
-                    className="absolute -left-6 top-16 hidden w-[176px] rounded-[1.2rem] border border-white/80 bg-white/90 p-4 shadow-[0_20px_50px_rgba(33,29,25,0.16)] backdrop-blur-md xl:block"
-                  >
-                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#F0E4D6] text-[#A24B3B]">
-                      <ShieldCheck className="h-4 w-4" />
-                    </div>
-                    <div className="eh-display mt-2 text-sm font-semibold text-[#211D19]">
-                      {isRTL ? "دقة طبية" : "Medical Precision"}
-                    </div>
-                  </motion.div>
-
-                  <motion.div
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.45, duration: 0.7 }}
-                    style={{ transform: "translateZ(70px)" }}
-                    className="absolute -right-8 top-32 hidden w-[176px] rounded-[1.2rem] border border-white/80 bg-white/90 p-4 shadow-[0_20px_50px_rgba(33,29,25,0.16)] backdrop-blur-md xl:block"
-                  >
-                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#F0E4D6] text-[#A24B3B]">
-                      <BadgeCheck className="h-4 w-4" />
-                    </div>
-                    <div className="eh-display mt-2 text-sm font-semibold text-[#211D19]">
-                      {isRTL ? "تجربة موثوقة" : "Trusted Experience"}
-                    </div>
-                  </motion.div>
-                </motion.div>
-              </div>
-            </motion.div>
           </div>
 
           <motion.div

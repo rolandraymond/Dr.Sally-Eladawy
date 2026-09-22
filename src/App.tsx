@@ -20,8 +20,6 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-// 1. إنشاء مكون ScrollToTop
-// هذا المكون يراقب تغيير الرابط ويرفع الصفحة للأعلى
 const ScrollToTop = () => {
   const { pathname } = useLocation();
 
@@ -39,7 +37,6 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          {/* 2. وضع المكون هنا ليعمل مع كل الصفحات */}
           <ScrollToTop />
           
           <Layout>

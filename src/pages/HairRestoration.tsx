@@ -2,12 +2,40 @@ import { motion } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 import { Scissors, Droplets, Syringe, Sparkles, Activity, HeartPulse } from 'lucide-react';
 
+
+const HairRootIcon = ({
+  className,
+}: {
+  className?: string;
+}) => (
+  <img
+    src="/icons/hair-root-skin-icon (copy).svg"
+    alt=""
+    aria-hidden="true"
+    className={className}
+  />
+);
+
+
+const Hairloss = ({
+  className,
+}: {
+  className?: string;
+}) => (
+  <img
+    src="/icons/noun_Hairloss_7243346.svg"
+    alt=""
+    aria-hidden="true"
+    className={className}
+  />
+);
+
 const HairRestoration = () => {
   const { language } = useLanguage();
 
   const services = [
     {
-      icon: Scissors,
+      icon: HairRootIcon,
       title: language === 'ar' ? 'زراعة الشعر' : 'Hair Transplant',
       description: language === 'ar'
         ? 'تقنيات FUE و DHI للحصول على نتائج طبيعية'
@@ -42,7 +70,7 @@ const HairRestoration = () => {
         : 'Accurate diagnosis of hair and scalp problems',
     },
     {
-      icon: HeartPulse,
+      icon: Hairloss,
       title: language === 'ar' ? 'علاج التساقط' : 'Hair Loss Treatment',
       description: language === 'ar'
         ? 'برامج علاجية شاملة لوقف تساقط الشعر'
@@ -88,9 +116,19 @@ const HairRestoration = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="card-elevated"
               >
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-secondary/20 to-secondary/5 flex items-center justify-center mb-5">
-                  <service.icon className="w-7 h-7 text-secondary" />
-                </div>
+                <div
+                className={`flex items-center justify-center rounded-2xl bg-gradient-to-br from-secondary/20 to-secondary/5 mb-5 ${
+                  service.icon === Hairloss ? "h-14 w-14" : "h-14 w-14"
+                }`}
+              >
+                <service.icon
+                  className={
+                    service.icon === Hairloss
+                      ? "h-20 w-20 object-contain"
+                      : "h-7 w-7 text-secondary"
+                  }
+                />
+              </div>
                 <h3 className="text-lg font-semibold text-secondary mb-2">
                   {service.title}
                 </h3>

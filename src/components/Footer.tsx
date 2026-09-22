@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Twitter, Linkedin, Sparkles } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
-// واجهة لخصائص عنصر الاتصال
 interface ContactItemProps {
   icon: React.ElementType;
   title: string;
@@ -17,12 +16,12 @@ const Footer = () => {
   const { t, isRTL } = useLanguage();
 
   const quickLinks = [
-    { href: '/', label: t.nav.home },
-    { href: '/about-us', label: t.nav.about },
-    { href: '/services', label: t.nav.services },
-    { href: '/doctors', label: t.nav.doctors },
-    { href: '/offers', label: t.nav.offers },
-    { href: '/contact-us', label: t.nav.contact },
+    { href: '/', label: isRTL ? 'الرئيسية' : 'Home' },
+    { href: '/about-us', label: isRTL ? 'من نحن؟' : 'About Us' },
+    { href: '/services', label: isRTL ? 'الخدمات' : 'Services' },
+    { href: '/doctors', label: isRTL ? 'عن د. سالي' : 'Meet Dr. Sally' },
+    { href: '/offers', label: isRTL ? 'العروض' : 'Offers' },
+    { href: '/contact-us', label: isRTL ? 'تواصل معنا' : 'Contact Us' },
   ];
 
   const socialLinks = [
@@ -32,7 +31,6 @@ const Footer = () => {
     { icon: Linkedin, href: 'https://linkedin.com' },
   ];
 
-  // مواقع/توقيتات ثابتة (غير عشوائية) لجزيئات الضوء العائمة، لتفادي مشاكل الـ SSR/Hydration
   const particles = Array.from({ length: 16 }).map((_, i) => ({
     id: i,
     left: `${(i * 6.4 + 3) % 100}%`,
@@ -50,7 +48,6 @@ const Footer = () => {
       dir={isRTL ? 'rtl' : 'ltr'}
       className="relative overflow-hidden pt-28 pb-10 bg-gradient-to-b from-[#fdfbf8] via-[#f9f1ea] to-[#f3e4d9] text-[#3d2f2a]"
     >
-      {/* ================= خط الضوء المتلألئ العلوي (التوقيع البصري) ================= */}
       <div className="absolute top-0 left-0 right-0 h-px overflow-hidden bg-[#e7d6c2]">
         <motion.div
           className="h-full w-1/3 bg-gradient-to-r from-transparent via-[#c9a15a] to-transparent"
@@ -59,11 +56,9 @@ const Footer = () => {
         />
       </div>
 
-      {/* ================= توهجات خلفية ناعمة ================= */}
       <div className="absolute -top-40 -left-32 w-[520px] h-[520px] rounded-full bg-[#e9b9c4]/30 blur-[140px] pointer-events-none" />
       <div className="absolute -bottom-48 -right-24 w-[460px] h-[460px] rounded-full bg-[#c9a15a]/20 blur-[130px] pointer-events-none" />
 
-      {/* ================= جزيئات ضوء ذهبية عائمة ================= */}
       <div className="absolute inset-0 pointer-events-none motion-reduce:hidden">
         {particles.map((p) => (
           <motion.span
@@ -77,7 +72,6 @@ const Footer = () => {
       </div>
 
       <div className="container relative z-10 px-4 sm:px-6 mx-auto">
-        {/* ================= شعار وبيان العلامة (Brand Statement) ================= */}
         <div className="text-center mb-20">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -106,10 +100,14 @@ const Footer = () => {
             </div>
 
             <p className="max-w-md text-sm md:text-[15px] leading-loose text-[#7a675d] font-medium">
-              {t.footer.aboutText ||
-                (isRTL
-                  ? 'نقدم أرقى خدمات التجميل والعناية بالبشرة بأحدث التقنيات العالمية تحت إشراف نخبة من الأطباء لضمان نتائج تفوق توقعاتك.'
-                  : 'Providing the finest beauty and skin care services with the latest international technologies under the supervision of elite doctors.')}
+              <span className="block mb-2 font-bold text-[#3d2f2a]">
+                {isRTL
+                  ? 'د. سالي العدوي — أخصائية الجلدية والتجميل والليزر'
+                  : 'Dr. Sally El-Adawy — Dermatology, Aesthetics & Laser Specialist'}
+              </span>
+              {isRTL
+                ? 'بتؤمن إن أفضل النتائج بتبدأ من تشخيص صح، واختيار العلاج المناسب لكل حالة، بعيدًا عن الحلول السريعة أو الموحدة.'
+                : 'She believes the best results start with the right diagnosis and the right treatment for each case, away from quick fixes and one-size-fits-all solutions.'}
             </p>
 
             <div className="flex items-center gap-3 text-[#c9a15a]">
@@ -120,9 +118,7 @@ const Footer = () => {
           </motion.div>
         </div>
 
-        {/* ================= الشبكة الرئيسية ================= */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-14 lg:gap-10 mb-20">
-          {/* 1. روابط سريعة */}
           <div>
             <h4 className="text-lg font-bold text-[#3d2f2a] mb-8 relative inline-block font-cairo">
               {t.footer.quickLinks}
@@ -146,7 +142,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* 2. التواصل الاجتماعي + الختم الدوّار (العنصر المبتكر) */}
           <div className="flex flex-col items-start gap-8">
             <div>
               <h4 className="text-lg font-bold text-[#3d2f2a] mb-8 relative inline-block font-cairo">
@@ -168,7 +163,6 @@ const Footer = () => {
               </div>
             </div>
 
-            {/* ختم دائري دوّار بإسم العيادة - توقيع فاخر بدل الشعارات التقليدية */}
             <motion.div
               className="relative w-24 h-24 self-center opacity-90 motion-reduce:animate-none"
               animate={{ rotate: 360 }}
@@ -188,43 +182,77 @@ const Footer = () => {
             </motion.div>
           </div>
 
-          {/* 3. الفروع والتواصل */}
           <div>
             <h4 className="text-lg font-bold text-[#3d2f2a] mb-8 relative inline-block font-cairo">
               {t.footer.branches}
               <span className="absolute -bottom-3 left-0 w-8 h-[3px] rounded-full bg-gradient-to-r from-[#c9a15a] to-[#e0bd7a]" />
             </h4>
             <div className="space-y-6">
-              <ContactItem icon={MapPin} title={t.footer.damietta} desc="Safwa Mall, 2nd Floor" />
-              <ContactItem icon={MapPin} title={t.footer.newDamietta} desc="Central Zone, 1st Floor" />
+              <ContactItem
+                icon={MapPin}
+                title={isRTL ? 'فرع دمياط القديمة' : 'Damietta Branch'}
+                desc={
+                  isRTL
+                    ? 'الصفوة مول - برج 2 - الدور الخامس - شقة 8'
+                    : 'Safwa Mall – Tower 2 – 5th Floor – Apartment 8'
+                }
+              />
+              <ContactItem
+                icon={MapPin}
+                title={isRTL ? 'فرع دمياط الجديدة' : 'New Damietta Branch'}
+                desc={
+                  isRTL
+                    ? 'المنطقة المركزية - أعلى المصرف المتحد - بجوار المركز الطبي'
+                    : 'Central Zone – Above United Bank – Next to the Medical Center'
+                }
+              />
               <ContactItem
                 icon={Phone}
-                title={isRTL ? 'اتصل بنا' : 'Call Us'}
-                desc="0572260062"
+                title={isRTL ? 'فرع دمياط القديمة' : 'Damietta Branch'}
+                desc="015 580 08278"
                 isLink
-                href="tel:0572260062"
+                href="tel:+201558008278"
+              />
+              <ContactItem
+                icon={Phone}
+                title={isRTL ? 'فرع دمياط الجديدة' : 'New Damietta Branch'}
+                desc="015 0365 6589"
+                isLink
+                href="tel:+201503656589"
+              />
+              <ContactItem
+                icon={Phone}
+                title={isRTL ? 'تواصل معنا' : 'Contact Us'}
+                desc="015 518 20062"
+                isLink
+                href="tel:+201551820062"
+              />
+              <ContactItem
+                icon={Phone}
+                title={isRTL ? 'تواصل معنا' : 'Contact Us'}
+                desc="015 580 08978"
+                isLink
+                href="tel:+201558008978"
               />
             </div>
           </div>
 
-          {/* 4. ساعات العمل + النشرة البريدية (كارت عضوي بدل الصندوق التقليدي) */}
           <div>
             <h4 className="text-lg font-bold text-[#3d2f2a] mb-8 relative inline-block font-cairo">
               {t.footer.workingHours}
               <span className="absolute -bottom-3 left-0 w-8 h-[3px] rounded-full bg-gradient-to-r from-[#c9a15a] to-[#e0bd7a]" />
             </h4>
 
-            <div
-              className="relative p-7 bg-white/60 backdrop-blur-md border border-[#c9a15a]/20 mb-8 shadow-[0_18px_45px_-20px_rgba(201,161,90,0.45)] transition-all duration-500 hover:border-[#c9a15a]/50 hover:shadow-[0_18px_55px_-15px_rgba(201,161,90,0.55)]"
-              style={{ borderRadius: '42% 58% 65% 35% / 45% 40% 60% 55%' }}
-            >
+            <div className="mb-8">
               <div className="flex items-start gap-4 mb-6">
                 <div className="w-10 h-10 rounded-full bg-[#c9a15a]/10 flex items-center justify-center shrink-0 border border-[#c9a15a]/25">
                   <Clock className="w-5 h-5 text-[#a97c3f]" />
                 </div>
                 <div>
                   <p className="text-[#3d2f2a] font-bold text-sm mb-1">{isRTL ? 'ساعات العمل' : 'Opening Hours'}</p>
-                  <p className="text-xs text-[#7a675d] font-medium leading-relaxed">{t.footer.hours}</p>
+                  <p className="text-xs text-[#7a675d] font-medium leading-relaxed">
+                    {isRTL ? 'يوميًا من الساعة 1 صباحًا حتى 1 مساءً' : 'Daily from 1 AM to 1 PM'}
+                  </p>
                 </div>
               </div>
 
@@ -233,19 +261,18 @@ const Footer = () => {
                   <Mail className="w-4 h-4 text-[#6b5850]" />
                 </div>
                 <a
-                  href="mailto:info@sftouch.com"
+                  href="mailto:info@sftouchclinics.com"
                   className="text-sm font-medium text-[#6b5850] hover:text-[#a97c3f] transition-colors"
                 >
-                  info@sftouch.com
+                  info@sftouchclinics.com
                 </a>
               </div>
             </div>
 
-            {/* حقل الاشتراك الفاخر */}
             <div className="relative group">
               <input
-                type="email"
-                placeholder={isRTL ? 'اشتركي في نشرتنا...' : 'Subscribe newsletter...'}
+                type="search"
+                placeholder={isRTL ? 'ابحث من هنا ...' : 'Search here...'}
                 className={`w-full bg-white/70 border border-[#c9a15a]/25 rounded-full py-3.5 ${
                   isRTL ? 'pr-5 pl-14' : 'pl-5 pr-14'
                 } text-sm text-[#3d2f2a] placeholder:text-[#a3928a] focus:outline-none focus:border-[#c9a15a] focus:bg-white transition-all duration-300 shadow-inner`}
@@ -284,7 +311,6 @@ const Footer = () => {
   );
 };
 
-// مكون عناصر الاتصال المحدث
 const ContactItem = ({ icon: Icon, title, desc, isLink, href }: ContactItemProps) => {
   const Content = (
     <div className="flex items-center gap-4 group cursor-default">

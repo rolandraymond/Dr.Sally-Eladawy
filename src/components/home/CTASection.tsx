@@ -4,8 +4,8 @@ import { Phone, ArrowRight, Sparkles } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
 const CTASection = () => {
-  const { t, isRTL } = useLanguage();
-  const containerRef = useRef<HTMLDivElement>(null);
+const { isRTL } = useLanguage();
+const containerRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -83,19 +83,6 @@ const CTASection = () => {
             <span className="relative bg-clip-text text-transparent bg-[size:200%] animate-gradient-text bg-gradient-to-r from-[#a97c3f] via-[#c9a15a] to-[#a97c3f]">
               {isRTL ? 'أول خطوة .. استشارة صح' : 'First Step: A Right Consultation'}
             </span>
-            <svg viewBox="0 0 300 24" className="absolute -bottom-4 left-0 w-full h-6 overflow-visible" preserveAspectRatio="none">
-              <motion.path
-                d="M4,14 C60,4 110,20 150,10 C190,2 240,18 296,8"
-                fill="none"
-                stroke="#c9a15a"
-                strokeWidth="5"
-                strokeLinecap="round"
-                initial={{ pathLength: 0, opacity: 0 }}
-                whileInView={{ pathLength: 1, opacity: 0.8 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.1, delay: 0.4, ease: 'easeInOut' }}
-              />
-            </svg>
           </span>
         </h2>
 

@@ -10,9 +10,9 @@ import { cn } from '@/lib/utils';
 // --ink #0E0D0A · --ink-soft #18140D · --gold #BE9A5A
 // --gold-light #E9D6A6 · --ivory #F5EFE2 · --hairline rgba(190,154,90,.22)
 //
-// STRUCTURE THIS PASS — a "crest": the logo sits on a true center axis,
-// nav links wing out symmetrically left/right, and the two outermost
-// actions (language + Book Appointment) mirror each other as bookends.
+// Content-sized link/action columns prevent overlap at desktop widths.
+// The logo column takes the remaining space; compact spacing below 1536px
+// keeps the full navigation readable from the 1280px desktop breakpoint.
 // The services dropdown no longer anchors to its trigger (that's what
 // pushed it off-screen) — it now drops as a full-width curtain fixed
 // to the viewport, so it can never overflow horizontally regardless of
@@ -29,7 +29,6 @@ const NAV_VARS: React.CSSProperties = {
   '--hairline': 'rgba(190,154,90,0.22)',
 };
 
-const TOPBAR_H = 36; // px, matches the animated top-strip height
 const HEADER_H_TOP = 92; // px, header height at rest
 const HEADER_H_SCROLLED = 68; // px, header height once scrolled
 
@@ -47,7 +46,7 @@ const CrestLink = ({
   <Link
     to={to}
     onMouseEnter={onEnter}
-    className="relative px-3 py-2 text-[12px] font-medium uppercase tracking-[0.2em] whitespace-nowrap transition-colors duration-300"
+    className="relative shrink-0 px-2 py-2 text-[11px] font-medium uppercase tracking-[0.12em] 2xl:px-3 2xl:text-[12px] 2xl:tracking-[0.2em] whitespace-nowrap transition-colors duration-300"
     style={{ color: active ? 'var(--gold-light)' : 'rgba(245,239,226,0.72)' }}
   >
     {label}
@@ -72,7 +71,7 @@ const Navbar = () => {
 
   const location = useLocation();
   const { scrollY } = useScroll();
-  const { language, setLanguage, t, isRTL } = useLanguage();
+  const { language, setLanguage } = useLanguage();
 
   const toggleLanguage = () => setLanguage(language === 'en' ? 'ar' : 'en');
 
@@ -94,50 +93,68 @@ const Navbar = () => {
     closeTimer.current = setTimeout(() => setIsServicesOpen(false), 150);
   };
 
+  
+
   const serviceSubLinks = [
     {
       id: 'dermatology',
-      label: language === 'en' ? 'Dermatology' : 'الجلدية والتجميل',
-      desc: language === 'en' ? 'Skin diagnostics & treatment' : 'تشخيص وعلاج البشرة',
+      label: language === 'en' ? 'Dermatology & Laser' : 'الجلدية والليزر',
+      desc:
+        language === 'en'
+          ? 'Skin, laser and aesthetic treatments'
+          : 'علاجات البشرة والليزر والحقن التجميلية',
       icon: ScanFace,
       href: '/services/dermatology-laser',
     },
     {
-      id: 'laser',
-      label: language === 'en' ? 'Laser Clinic' : 'عيادة الليزر',
-      desc: language === 'en' ? 'Hair & skin resurfacing' : 'إزالة الشعر وتجديد البشرة',
-      icon: Zap,
-      href: '/services/hair-restoration',
-    },
-    {
       id: 'nutrition',
-      label: language === 'en' ? 'Nutrition & Body' : 'التغذية ونحت القوام',
-      desc: language === 'en' ? 'Contouring & wellness plans' : 'نحت القوام وخطط التغذية',
+      label:
+        language === 'en'
+          ? 'Medical Nutrition & Body Contouring'
+          : 'التغذية العلاجية ونحت الجسم',
+      desc:
+        language === 'en'
+          ? 'Personalized nutrition and body-contouring plans'
+          : 'خطط تغذية مخصصة وتقنيات متقدمة لنحت الجسم',
       icon: Activity,
       href: '/services/nutrition-contouring',
+    },
+    {
+      id: 'hair',
+      label:
+        language === 'en'
+          ? 'Hair Transplantation & Treatment'
+          : 'زراعة وعلاج الشعر',
+      desc:
+        language === 'en'
+          ? 'Specialized hair restoration and treatment solutions'
+          : 'حلول متخصصة لزراعة الشعر وعلاج مشكلاته',
+      icon: Zap,
+      href: '/services/hair-restoration',
     },
   ];
 
   const leftLinks = [
-    { href: '/', label: t.nav.home },
-    { href: '/about-us', label: t.nav.about },
+    { href: '/', label: language === 'en' ? 'Home' : 'الرئيسية' },
+    { href: '/about-us', label: language === 'en' ? 'About Us' : 'من نحن؟' },
   ];
   const rightLinks = [
-    { href: '/doctors', label: t.nav.doctors },
-    { href: '/offers', label: t.nav.offers },
-    { href: '/contact-us', label: t.nav.contact },
+    { href: '/doctors', label: language === 'en' ? 'Meet Dr. Sally' : 'عن د. سالي' },
+    { href: '/offers', label: language === 'en' ? 'Offers' : 'العروض' },
+    { href: '/contact-us', label: language === 'en' ? 'Contact Us' : 'تواصل معنا' },
   ];
-  const servicesLink = { href: '/services', label: t.nav.services };
+  const servicesLink = { href: '/services', label: language === 'en' ? 'Services' : 'الخدمات' };
   const isServicesActive = location.pathname.startsWith('/services');
 
-  const panelTop = isScrolled ? HEADER_H_SCROLLED : TOPBAR_H + HEADER_H_TOP;
+  const panelTop = isScrolled
+  ? HEADER_H_SCROLLED
+  : HEADER_H_TOP;
 
   return (
     <div style={NAV_VARS}>
       {/* ======================= TOP STRIP ======================= */}
       {/* ======================= GLOBAL SPACER ======================= */}
-      {/* هذا العنصر يحجز مساحة النافبار الثابت لكي لا يغطي على محتوى أي صفحة */}
-      <div className="h-[40px] lg:h-[80px] w-full shrink-0" aria-hidden="true" />
+      {/* <div className="h-[40px] lg:h-[80px] w-full shrink-0" aria-hidden="true" />
       <motion.div
         className="fixed top-0 left-0 right-0 z-50 text-[11px] tracking-wide border-b overflow-hidden"
         style={{ background: 'var(--ink)', borderColor: 'var(--hairline)' }}
@@ -147,31 +164,31 @@ const Navbar = () => {
       >
         <div className="container mx-auto px-4 sm:px-6 h-9 flex justify-between items-center">
           <div className="flex items-center gap-3 sm:gap-5">
-            <a href="tel:0572260062" className="flex items-center gap-1.5" style={{ color: 'rgba(245,239,226,0.75)' }}>
+            <a href="tel:+201551820062" className="flex items-center gap-1.5" style={{ color: 'rgba(245,239,226,0.75)' }}>
               <Phone className="w-3 h-3 shrink-0" style={{ color: 'var(--gold)' }} />
-              <span className="hidden xs:inline">0572260062</span>
+              <span dir="ltr" className="hidden xs:inline [unicode-bidi:isolate]">015 518 20062</span>
             </a>
             <span className="hidden md:flex items-center gap-1.5" style={{ color: 'rgba(245,239,226,0.5)' }}>
               <MapPin className="w-3 h-3" style={{ color: 'var(--gold)' }} />
-              {language === 'en' ? 'Damietta, Safwa Mall' : 'دمياط، الصفوة مول'}
+              {language === 'en' ? 'Damietta & New Damietta' : 'دمياط القديمة والجديدة'}
             </span>
           </div>
           <div className="flex items-center gap-3 sm:gap-4" style={{ color: 'rgba(245,239,226,0.5)' }}>
             <span className="hidden sm:flex items-center gap-1.5">
               <Clock className="w-3 h-3" style={{ color: 'var(--gold)' }} />
-              10:00 AM – 10:00 PM
+              {language === 'en' ? 'Daily: 1 AM – 1 PM' : 'يوميًا: 1 صباحًا – 1 مساءً'}
             </span>
             <button onClick={toggleLanguage} className="lg:hidden font-bold" style={{ color: 'var(--ivory)' }}>
               {language === 'en' ? 'AR' : 'EN'}
             </button>
           </div>
         </div>
-      </motion.div>
-
+      </motion.div> */}
+      <div className="h-[68px] xl:h-[92px] w-full shrink-0" aria-hidden="true" />
       {/* ======================= MAIN NAVBAR ======================= */}
       <header
         className="fixed left-0 right-0 z-40 transition-[top] duration-300"
-        style={{ top: isScrolled ? 0 : TOPBAR_H }}
+        style={{ top: 0 }}
         onMouseLeave={scheduleCloseServices}
       >
         <div
@@ -182,80 +199,102 @@ const Navbar = () => {
             backdropFilter: isScrolled ? 'blur(12px)' : 'none',
           }}
         >
-          {/* ---- DESKTOP: symmetric crest grid ---- */}
-          <div
-            className={cn(
-              'hidden lg:grid container mx-auto px-4 sm:px-6 xl:px-10 items-center transition-all duration-300',
-              'grid-cols-[auto_1fr_auto_1fr_auto] gap-4 xl:gap-6',
-              isScrolled ? 'h-[68px]' : 'h-[92px]'
-            )}
-          >
-            {/* far-left bookend */}
-            <button
-              onClick={toggleLanguage}
-              className="flex items-center gap-1.5 px-2 py-2 text-[11px] font-semibold uppercase tracking-wider transition-colors justify-self-start"
-              style={{ color: 'rgba(245,239,226,0.7)' }}
+          {/* ---- DESKTOP: content-sized columns with a flexible logo column ---- */}
+                    <div
+              dir="ltr"
+              className={cn(
+                "relative mx-auto hidden w-full max-w-[1600px] grid-cols-[max-content_max-content_minmax(96px,1fr)_max-content_max-content] items-center gap-3 px-6 2xl:gap-6 transition-all duration-300 xl:grid",
+                isScrolled ? "h-[68px]" : "h-[92px]"
+              )}
             >
-              <Globe className="w-3.5 h-3.5" />
-              {language === 'en' ? 'AR' : 'EN'}
-            </button>
-
-            {/* left wing */}
-            <nav className="flex items-center gap-1 justify-end">
-              {leftLinks.map((l) => (
-                <CrestLink key={l.href} to={l.href} label={l.label} active={location.pathname === l.href} onEnter={scheduleCloseServices} />
-              ))}
-              <span
-                onMouseEnter={openServices}
-                className="inline-flex items-center"
+              <button
+                onClick={toggleLanguage}
+                className="col-start-1 row-start-1 flex items-center gap-1.5 justify-self-start px-2 py-2 text-[11px] font-semibold uppercase tracking-wider transition-colors"
+                style={{ color: "rgba(245,239,226,0.7)" }}
               >
-                <CrestLink to={servicesLink.href} label={servicesLink.label} active={isServicesActive || isServicesOpen} />
-                <ChevronDown
-                  className="w-3 h-3 -ml-1.5 transition-transform duration-300"
-                  style={{ color: isServicesOpen ? 'var(--gold-light)' : 'rgba(245,239,226,0.5)', transform: isServicesOpen ? 'rotate(180deg)' : 'none' }}
+                <Globe className="h-3.5 w-3.5" />
+                {language === "en" ? "AR" : "EN"}
+              </button>
+
+              <nav className="col-start-2 row-start-1 flex items-center justify-end gap-1">
+                {leftLinks.map((link) => (
+                  <CrestLink
+                    key={link.href}
+                    to={link.href}
+                    label={link.label}
+                    active={location.pathname === link.href}
+                    onEnter={scheduleCloseServices}
+                  />
+                ))}
+
+                <span onMouseEnter={openServices} className="inline-flex items-center">
+                  <CrestLink
+                    to={servicesLink.href}
+                    label={servicesLink.label}
+                    active={isServicesActive || isServicesOpen}
+                  />
+
+                  <ChevronDown
+                    className="h-3 w-3 -ml-1.5 transition-transform duration-300"
+                    style={{
+                      color: isServicesOpen
+                        ? "var(--gold-light)"
+                        : "rgba(245,239,226,0.5)",
+                      transform: isServicesOpen ? "rotate(180deg)" : "none",
+                    }}
+                  />
+                </span>
+              </nav>
+
+              <Link
+                to="/"
+                onMouseEnter={scheduleCloseServices}
+                className="col-start-3 row-start-1 flex items-center justify-center px-2 2xl:px-6"
+              >
+                <img
+                  src="/blogo.png"
+                  alt="SF Touch"
+                  className={cn(
+                    "object-contain brightness-0 invert transition-all duration-300",
+                    isScrolled ? "w-20" : "w-24"
+                  )}
                 />
-              </span>
-            </nav>
+              </Link>
 
-            {/* center emblem */}
-            <Link to="/" onMouseEnter={scheduleCloseServices} className="flex flex-col items-center justify-self-center px-2">
-              <img
-                src="/blogo.png"
-                alt="SF Touch"
-                className={cn('object-contain brightness-0 invert transition-all duration-300', isScrolled ? 'w-16 xl:w-20' : 'w-20 xl:w-24')}
-              />
-              <span className="mt-1 text-[8px] xl:text-[9px] tracking-[0.3em] xl:tracking-[0.35em] uppercase whitespace-nowrap" style={{ color: 'var(--gold)' }}>
-                {language === 'en' ? 'Skin · Laser · Wellness' : 'بشرة · ليزر · تغذية'}
-              </span>
-            </Link>
+              <nav
+                className="col-start-4 row-start-1 flex items-center justify-start gap-1"
+                onMouseEnter={scheduleCloseServices}
+              >
+                {rightLinks.map((link) => (
+                  <CrestLink
+                    key={link.href}
+                    to={link.href}
+                    label={link.label}
+                    active={location.pathname === link.href}
+                  />
+                ))}
+              </nav>
 
-            {/* right wing */}
-            <nav className="flex items-center gap-1 justify-start" onMouseEnter={scheduleCloseServices}>
-              {rightLinks.map((l) => (
-                <CrestLink key={l.href} to={l.href} label={l.label} active={location.pathname === l.href} />
-              ))}
-            </nav>
-
-            {/* far-right bookend */}
-            <button
-              className="justify-self-end px-5 xl:px-6 py-2.5 text-[11px] xl:text-[12px] font-semibold uppercase tracking-[0.15em] border whitespace-nowrap transition-colors duration-300"
-              style={{ borderColor: 'var(--gold)', color: 'var(--gold-light)' }}
-              onMouseEnter={(e) => {
-                scheduleCloseServices();
-                e.currentTarget.style.background = 'var(--gold)';
-                e.currentTarget.style.color = 'var(--ink)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'transparent';
-                e.currentTarget.style.color = 'var(--gold-light)';
-              }}
-            >
-              {t.nav.bookAppointment}
-            </button>
-          </div>
-
+              <button
+                className="col-start-5 row-start-1 justify-self-end whitespace-nowrap border px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.12em] 2xl:px-6 2xl:text-[12px] 2xl:tracking-[0.15em] transition-colors duration-300"
+                style={{
+                  borderColor: "var(--gold)",
+                  color: "var(--gold-light)",
+                }}
+                onMouseEnter={(event) => {
+                  event.currentTarget.style.background = "var(--gold)";
+                  event.currentTarget.style.color = "var(--ink)";
+                }}
+                onMouseLeave={(event) => {
+                  event.currentTarget.style.background = "transparent";
+                  event.currentTarget.style.color = "var(--gold-light)";
+                }}
+              >
+                {language === "en" ? "Book an Appointment" : "احجز موعد"}
+              </button>
+            </div>
           {/* ---- MOBILE / TABLET: centered emblem, balanced hamburger ---- */}
-          <div className="lg:hidden grid grid-cols-[44px_1fr_44px] items-center container mx-auto px-4 sm:px-6 h-[68px]">
+          <div className="grid xl:hidden grid-cols-[44px_1fr_44px] items-center container mx-auto px-4 sm:px-6 h-[68px]">
             <span aria-hidden className="w-[44px]" />
             <Link to="/" className="flex justify-center">
               <img src="/blogo.png" alt="SF Touch" className="w-20 object-contain brightness-0 invert" />
@@ -281,7 +320,7 @@ const Navbar = () => {
               transition={{ duration: 0.22, ease: [0.65, 0, 0.35, 1] }}
               onMouseEnter={openServices}
               onMouseLeave={scheduleCloseServices}
-              className="hidden lg:block fixed left-0 right-0 z-30 border-b shadow-2xl"
+              className="fixed left-0 right-0 z-30 hidden border-b shadow-2xl xl:block"
               style={{ top: panelTop, background: 'var(--ink-soft)', borderColor: 'var(--hairline)' }}
             >
               <div className="container mx-auto px-4 sm:px-6 xl:px-10 py-9">
@@ -329,7 +368,7 @@ const Navbar = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-50 lg:hidden flex flex-col"
+            className="fixed inset-0 z-50 xl:hidden flex flex-col"
             style={{ background: 'var(--ink)' }}
           >
             <div className="flex justify-between items-center px-6 py-5 border-b" style={{ borderColor: 'var(--hairline)' }}>
@@ -425,7 +464,7 @@ const Navbar = () => {
                 className="w-full py-4 text-sm font-semibold uppercase tracking-[0.15em] border"
                 style={{ borderColor: 'var(--gold)', color: 'var(--gold-light)' }}
               >
-                {t.nav.bookAppointment}
+                {language === 'en' ? 'Book an Appointment' : 'احجز موعد'}
               </button>
             </div>
           </motion.div>

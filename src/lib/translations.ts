@@ -1,4 +1,4 @@
-export type Language = 'en' | 'ar';
+export type Language = "en" | "ar";
 
 export interface TranslationContent {
   // Navbar
@@ -11,7 +11,7 @@ export interface TranslationContent {
     contact: string;
     bookAppointment: string;
   };
-  
+
   // Hero
   hero: {
     title: string;
@@ -20,7 +20,7 @@ export interface TranslationContent {
     cta: string;
     secondaryCta: string;
   };
-  
+
   // Services
   services: {
     title: string;
@@ -39,13 +39,13 @@ export interface TranslationContent {
     };
     learnMore: string;
   };
-  
+
   // Technologies
   technologies: {
     title: string;
     subtitle: string;
   };
-  
+
   // Why Choose Us
   whyUs: {
     title: string;
@@ -67,7 +67,7 @@ export interface TranslationContent {
       description: string;
     };
   };
-  
+
   // Footer
   footer: {
     about: string;
@@ -81,7 +81,7 @@ export interface TranslationContent {
     copyright: string;
     followUs: string;
   };
-  
+
   // Contact
   contact: {
     title: string;
@@ -92,7 +92,7 @@ export interface TranslationContent {
     message: string;
     send: string;
   };
-  
+
   // About
   about: {
     title: string;
@@ -104,7 +104,7 @@ export interface TranslationContent {
     founderName: string;
     founderBio: string;
   };
-  
+
   // Common
   common: {
     readMore: string;
@@ -117,194 +117,225 @@ export interface TranslationContent {
 export const translations: Record<Language, TranslationContent> = {
   en: {
     nav: {
-      home: 'Home',
-      about: 'About Us',
-      services: 'Services',
-      doctors: 'Doctor',
-      offers: 'Offers',
-      contact: 'Contact Us',
-      bookAppointment: 'Book Appointment',
+      home: "Home",
+      about: "About Us",
+      services: "Services",
+      doctors: "Meet Dr. Sally",
+      offers: "Offers",
+      contact: "Contact Us",
+      bookAppointment: "Book an Appointment",
     },
     hero: {
-      title: 'Integrated Beauty & Wellness',
-      subtitle: 'SF Touch Clinic',
-      description: 'Where advanced medical expertise meets luxury care. Experience personalized treatments by qualified doctors using the latest technologies in dermatology, laser, and nutrition.',
-      cta: 'Book Your Consultation',
-      secondaryCta: 'Explore Services',
+      title: "Medical Expertise... Results That Make a Difference",
+      subtitle: "Dr. Sally El-Adawy",
+      description:
+        "Specialized care in dermatology, aesthetics, and laser treatments, with personalized treatment plans based on each case and the latest technologies for natural-looking, safe results.",
+      cta: "Book Your Consultation",
+      secondaryCta: "Explore Services",
     },
     services: {
-      title: 'Our Services',
-      subtitle: 'Comprehensive care tailored to your unique needs',
+      title: "Our Services",
+      subtitle:
+        "From dermatology and laser treatments to nutrition, body contouring, and hair restoration, every service starts with a thorough assessment to find the most suitable approach.",
       dermatology: {
-        title: 'Dermatology & Laser',
-        description: 'Advanced skin treatments, laser procedures, and aesthetic injectables performed by expert dermatologists.',
+        title: "Dermatology & Laser",
+        description:
+          "Advanced skin treatments, laser procedures, and aesthetic injectables, with medical supervision and a plan suited to each case.",
       },
       nutrition: {
-        title: 'Clinical Nutrition & Body Contouring',
-        description: 'Personalized diet plans, Smart Lipo, and advanced body sculpting devices for your wellness journey.',
+        title: "Medical Nutrition & Body Contouring",
+        description:
+          "Personalized nutrition plans, advanced body-contouring techniques, and modern technologies designed to achieve balanced, natural-looking results.",
       },
       hair: {
-        title: 'Hair Restoration',
-        description: 'State-of-the-art hair transplant procedures and treatments for natural, lasting results.',
+        title: "Hair Transplantation & Treatment",
+        description:
+          "Specialized solutions for hair transplantation and hair concerns, with a personalized plan designed to achieve the best possible outcome.",
       },
-      learnMore: 'Learn More',
+      learnMore: "Learn More",
     },
     technologies: {
-      title: 'Advanced Technologies',
-      subtitle: 'We use the latest FDA-approved devices for optimal results',
+      title: "Specialized Care",
+      subtitle:
+        "Medical care, advanced technologies, and attention that starts from the first consultation and continues until the right result is achieved.",
     },
     whyUs: {
-      title: 'Why Choose SF Touch',
-      subtitle: 'Excellence in every detail',
+      title: "Why Choose Dr. Sally El-Adawy?",
+      subtitle: "Because the Small Details Make the Difference",
       doctorsCare: {
-        title: 'Doctors Perform All Procedures',
-        description: 'Unlike other clinics, all treatments are performed directly by our qualified doctors, not assistants.',
+        title: "Precise Assessment",
+        description:
+          "Every case is carefully assessed before treatment to understand your features, needs, and the most suitable approach.",
       },
       technology: {
-        title: 'Latest Technology',
-        description: 'We invest in cutting-edge equipment including Deka Again, Motus Pro, Smart Lipo, and Onda Coolwaves.',
+        title: "Personalized Treatment",
+        description:
+          "No two cases are the same. Your treatment plan is selected according to what best suits your individual needs.",
       },
       customized: {
-        title: 'Customized Treatment Plans',
-        description: 'Every patient receives a personalized treatment plan designed for their specific needs and goals.',
+        title: "Natural-Looking Results",
+        description:
+          "The goal is to enhance your features while keeping you looking like yourself—more refreshed, balanced, and natural.",
       },
       results: {
-        title: 'Proven Results',
-        description: 'Our track record of successful treatments and satisfied patients speaks for itself.',
+        title: "Care Beyond the Treatment",
+        description:
+          "From understanding every step before the procedure to follow-up afterward, you are supported throughout your treatment journey.",
       },
     },
     footer: {
-      about: 'About SF Touch',
-      aboutText: 'A premium dermatology, laser, and nutrition center dedicated to enhancing your natural beauty with advanced medical care.',
-      quickLinks: 'Quick Links',
-      branches: 'Our Branches',
-      damietta: 'Damietta - Safwa Mall',
-      newDamietta: 'New Damietta - Central Zone',
-      workingHours: 'Working Hours',
-      hours: 'Daily: 10 AM - 10 PM',
-      copyright: '© 2025 Tungsten Media. All rights reserved.',
-      followUs: 'Follow Us',
+      about: "Dr. Sally El-Adawy",
+      aboutText:
+        "Dr. Sally believes the best results start with the right diagnosis and the right treatment for each case, away from quick fixes and one-size-fits-all solutions.",
+      quickLinks: "Quick Links",
+      branches: "Our Branches",
+      damietta: "Damietta Branch",
+      newDamietta: "New Damietta Branch",
+      workingHours: "Working Hours",
+      hours: "Daily from 1 AM to 1 PM",
+      copyright: "© 2026 Tungsten Media. All rights reserved.",
+      followUs: "Follow Us",
     },
     contact: {
-      title: 'Get In Touch',
-      subtitle: 'We\'re here to answer your questions',
-      name: 'Your Name',
-      email: 'Email Address',
-      phone: 'Phone Number',
-      message: 'Your Message',
-      send: 'Send Message',
+      title: "Have a Question? Let’s Start Here",
+      subtitle:
+        "Tell us how we can help. Leave your message or inquiry, and our team will contact you within 24 hours.",
+      name: "Full Name",
+      email: "Email Address",
+      phone: "Phone Number",
+      message: "Your Message or Inquiry",
+      send: "Send Message",
     },
     about: {
-      title: 'About SF Touch Clinic',
-      vision: 'Our Vision',
-      visionText: 'To be the leading destination for integrated beauty and wellness in Egypt, setting new standards in medical aesthetics.',
-      mission: 'Our Mission',
-      missionText: 'To provide personalized, results-driven treatments using the latest technologies, delivered with care and expertise by qualified medical professionals.',
-      founderTitle: 'Founder & Medical Director',
-      founderName: 'Dr. Khaled Abo Youssef',
-      founderBio: 'With years of experience in dermatology and aesthetic medicine, Dr. Khaled established SF Touch Clinic with a vision to bring world-class care to Egypt.',
+      title: "Every Great Result Starts With the Right Beginning",
+      vision: "My Vision",
+      visionText:
+        "To provide medical care based on science and experience, where every result is suited to the individual case while preserving a natural appearance.",
+      mission: "My Mission",
+      missionText:
+        "To help every case achieve the best possible result through accurate diagnosis, a suitable treatment plan, and continuous follow-up at every step.",
+      founderTitle: "Dermatology, Aesthetics & Laser Specialist",
+      founderName: "Dr. Sally El-Adawy",
+      founderBio:
+        "Dr. Sally combines accurate diagnosis, practical experience, and the right procedure for each case. She believes aesthetics should enhance natural features, not change them.",
     },
     common: {
-      readMore: 'Read More',
-      viewAll: 'View All',
-      callNow: 'Call Now',
-      directions: 'Get Directions',
+      readMore: "Read More",
+      viewAll: "View All Services",
+      callNow: "Call Now",
+      directions: "Get Directions",
     },
   },
+
   ar: {
     nav: {
-      home: 'الرئيسية',
-      about: 'من نحن',
-      services: 'خدماتنا',
-      doctors: 'أطباؤنا',
-      offers: 'العروض',
-      contact: 'تواصل معنا',
-      bookAppointment: 'احجز موعد',
+      home: "الرئيسية",
+      about: "من نحن؟",
+      services: "الخدمات",
+      doctors: "عن د. سالي",
+      offers: "العروض",
+      contact: "تواصل معنا",
+      bookAppointment: "احجز موعد",
     },
     hero: {
-      title: 'الجمال والعافية المتكاملة',
-      subtitle: 'عيادة إس إف تاتش',
-      description: 'حيث تلتقي الخبرة الطبية المتقدمة بالرعاية الفاخرة. استمتع بعلاجات مخصصة من أطباء مؤهلين باستخدام أحدث التقنيات في الجلدية والليزر والتغذية.',
-      cta: 'احجز استشارتك',
-      secondaryCta: 'استكشف الخدمات',
+      title: "خبرة طبية... ونتائج تفرق",
+      subtitle: "د. سالي العدوي",
+      description:
+        "رعاية طبية متخصصة في الجلدية والتجميل والليزر، مع خطط علاج بتتحدد حسب احتياجات كل حالة، وباستخدام أحدث التقنيات للحصول على نتائج طبيعية وآمنة.",
+      cta: "احجز استشارتك",
+      secondaryCta: "اكتشف الخدمات",
     },
     services: {
-      title: 'خدماتنا',
-      subtitle: 'رعاية شاملة مصممة لاحتياجاتك الفريدة',
+      title: "خدماتنا",
+      subtitle:
+        "من الجلدية والليزر، للتغذية ونحت الجسم، وزراعة وعلاج الشعر، كل خدمة بتبدأ بتقييم دقيق علشان نوصل لأفضل نتيجة ممكنة.",
       dermatology: {
-        title: 'الجلدية والليزر',
-        description: 'علاجات البشرة المتقدمة وإجراءات الليزر والحقن التجميلية التي يقوم بها أطباء جلدية متخصصون.',
+        title: "الجلدية والليزر",
+        description:
+          "علاجات متقدمة للبشرة، وإجراءات الليزر والحقن التجميلية، بإشراف طبي وخطة تناسب طبيعة كل حالة.",
       },
       nutrition: {
-        title: 'التغذية العلاجية ونحت الجسم',
-        description: 'خطط غذائية مخصصة وسمارت ليبو وأجهزة نحت الجسم المتقدمة لرحلة عافيتك.',
+        title: "التغذية العلاجية ونحت الجسم",
+        description:
+          "خطط غذائية مخصصة، وتقنيات متقدمة لنحت الجسم وأجهزة حديثة لتحقيق نتائج متوازنة وطبيعية.",
       },
       hair: {
-        title: 'استعادة الشعر',
-        description: 'إجراءات زراعة الشعر وعلاجاته المتطورة للحصول على نتائج طبيعية ودائمة.',
+        title: "زراعة وعلاج الشعر",
+        description:
+          "حلول متخصصة لزراعة الشعر وعلاج مشكلاته، مع خطة مناسبة لكل حالة للحصول على أفضل نتيجة ممكنة.",
       },
-      learnMore: 'اعرف المزيد',
+      learnMore: "تفاصيل أكتر",
     },
     technologies: {
-      title: 'تقنيات متقدمة',
-      subtitle: 'نستخدم أحدث الأجهزة المعتمدة من FDA للحصول على أفضل النتائج',
+      title: "رعاية متخصصة بمعايير طبية عالية",
+      subtitle:
+        "رعاية طبية، أحدث التقنيات، واهتمام يبدأ من أول استشارة وحتى الوصول للنتيجة المناسبة.",
     },
     whyUs: {
-      title: 'لماذا إس إف تاتش',
-      subtitle: 'التميز في كل التفاصيل',
+      title: "ليه تختار د. سالي العدوي؟",
+      subtitle: "لأن التفاصيل الصغيرة هي اللي بتصنع الفرق",
       doctorsCare: {
-        title: 'الأطباء يجرون جميع العمليات',
-        description: 'على عكس العيادات الأخرى، جميع العلاجات تتم مباشرة من قبل أطبائنا المؤهلين وليس المساعدين.',
+        title: "تقييم دقيق قبل أي إجراء",
+        description:
+          "كل حالة بيتم تقييمها بعناية قبل العلاج علشان نفهم احتياجاتها ونحدد أنسب خطوة ليها.",
       },
       technology: {
-        title: 'أحدث التقنيات',
-        description: 'نستثمر في أحدث المعدات بما في ذلك Deka Again و Motus Pro و Smart Lipo و Onda Coolwaves.',
+        title: "اختيار العلاج المناسب",
+        description:
+          "مش كل تقنية تنفع لكل الناس، والإجراء بيتحدد حسب احتياجات كل حالة، مش حسب الترند.",
       },
       customized: {
-        title: 'خطط علاج مخصصة',
-        description: 'يحصل كل مريض على خطة علاج مخصصة مصممة لاحتياجاته وأهدافه الخاصة.',
+        title: "نتائج طبيعية",
+        description:
+          "هدفنا نتيجة طبيعية ومتناسقة تحافظ على ملامحك وشخصيتك من غير مبالغة أو تغيير.",
       },
       results: {
-        title: 'نتائج مثبتة',
-        description: 'سجلنا الحافل بالعلاجات الناجحة والمرضى الراضين يتحدث عن نفسه.',
+        title: "متابعة مستمرة",
+        description:
+          "الرعاية مش بتقف عند نهاية الجلسة، والمتابعة جزء أساسي من رحلة العلاج والوصول لأفضل نتيجة.",
       },
     },
     footer: {
-      about: 'عن إس إف تاتش',
-      aboutText: 'مركز متميز للجلدية والليزر والتغذية مكرس لتعزيز جمالك الطبيعي بالرعاية الطبية المتقدمة.',
-      quickLinks: 'روابط سريعة',
-      branches: 'فروعنا',
-      damietta: 'دمياط - مول صفوة',
-      newDamietta: 'دمياط الجديدة - المنطقة المركزية',
-      workingHours: 'ساعات العمل',
-      hours: 'يومياً: ١٠ صباحاً - ١٠ مساءً',
-      copyright: '© ٢٠٢٥ تنجستن ميديا جميع الحقوق محفوظة.',
-      followUs: 'تابعنا',
+      about: "د. سالي العدوي",
+      aboutText:
+        "د. سالي العدوي أخصائية الجلدية والتجميل والليزر، وبتؤمن إن أفضل النتائج بتبدأ من تشخيص صح واختيار العلاج المناسب لكل حالة، بعيدًا عن الحلول السريعة أو الموحدة.",
+      quickLinks: "روابط سريعة",
+      branches: "فروعنا",
+      damietta: "فرع دمياط القديمة",
+      newDamietta: "فرع دمياط الجديدة",
+      workingHours: "مواعيد العمل",
+      hours: "يوميًا من الساعة 1 صباحًا حتى 1 مساءً",
+      copyright: "© 2026 تنجستن ميديا. جميع الحقوق محفوظة.",
+      followUs: "تابعنا",
     },
     contact: {
-      title: 'تواصل معنا',
-      subtitle: 'نحن هنا للإجابة على أسئلتك',
-      name: 'الاسم',
-      email: 'البريد الإلكتروني',
-      phone: 'رقم الهاتف',
-      message: 'رسالتك',
-      send: 'إرسال الرسالة',
+      title: "عندك سؤال؟ خلينا نبدأ من هنا",
+      subtitle:
+        "قولنا إزاي نقدر نساعدك. سيب رسالتك واستفسارك، وفريقنا هيتواصل معاك خلال 24 ساعة.",
+      name: "الاسم بالكامل",
+      email: "البريد الإلكتروني",
+      phone: "رقم الموبايل",
+      message: "رسالتك أو استفسارك",
+      send: "إرسال الرسالة",
     },
     about: {
-      title: 'عن عيادة إس إف تاتش',
-      vision: 'رؤيتنا',
-      visionText: 'أن نكون الوجهة الرائدة للجمال والعافية المتكاملة في مصر، ووضع معايير جديدة في الطب التجميلي.',
-      mission: 'مهمتنا',
-      missionText: 'تقديم علاجات مخصصة تركز على النتائج باستخدام أحدث التقنيات، يقدمها متخصصون طبيون مؤهلون بعناية وخبرة.',
-      founderTitle: 'المؤسس والمدير الطبي',
-      founderName: 'د. خالد أبو يوسف',
-      founderBio: 'بخبرة سنوات في الجلدية والطب التجميلي، أسس د. خالد عيادة إس إف تاتش برؤية لتقديم رعاية عالمية المستوى في مصر.',
+      title: "كل نتيجة ناجحة ليها بداية صح",
+      vision: "رؤيتي",
+      visionText:
+        "أقدم رعاية طبية مبنية على العلم والخبرة، بحيث تكون كل نتيجة مناسبة للحالة وتحافظ على المظهر الطبيعي.",
+      mission: "رسالتي",
+      missionText:
+        "أساعد كل حالة لتصل لأفضل نتيجة ممكنة من خلال تشخيص دقيق، وخطة علاج مناسبة، ومتابعة مستمرة في كل خطوة.",
+      founderTitle: "أخصائية الجلدية والتجميل والليزر",
+      founderName: "د. سالي العدوي",
+      founderBio:
+        "بتعتمد د. سالي في شغلها على الجمع بين التشخيص الدقيق والخبرة العملية واختيار الإجراء المناسب لكل حالة، وبتؤمن إن التجميل هدفه نتيجة طبيعية ومتناسقة تحافظ على الملامح.",
     },
     common: {
-      readMore: 'اقرأ المزيد',
-      viewAll: 'عرض الكل',
-      callNow: 'اتصل الآن',
-      directions: 'الاتجاهات',
+      readMore: "اعرف المزيد",
+      viewAll: "عرض كل الخدمات",
+      callNow: "اتصل الآن",
+      directions: "الاتجاهات",
     },
   },
 };

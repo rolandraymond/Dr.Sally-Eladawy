@@ -1,8 +1,129 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+@font-face {
+  font-family: "Cairo Local";
+  src: url("/fonts/ar/cairo-semibold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
 
+@font-face {
+  font-family: "Mudir MT";
+  src: url("/fonts/ar/mudir-mt.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Amsterdam";
+  src: url("/fonts/en/amsterdam.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Mersin";
+  src: url("/fonts/en/mersin-black-italic.otf") format("opentype");
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neometric";
+  src: url("/fonts/en/neometric-regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+html[dir="rtl"] body {
+  font-family: "Cairo Local", "Cairo", sans-serif;
+}
+
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+.font-cairo-local {
+  font-family: "Cairo Local", "Cairo", sans-serif !important;
+}
+
+.font-mudir {
+  font-family: "Mudir MT", "Cairo", sans-serif !important;
+}
+
+.font-neometric {
+  font-family: "Neometric", "Montserrat", sans-serif !important;
+}
+
+.font-mersin {
+  font-family: "Mersin", sans-serif !important;
+}
+
+.font-amsterdam {
+  font-family: "Amsterdam", cursive !important;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* English default text */
+html[dir="ltr"] body {
+  font-family: "Neometric", sans-serif;
+}
+
+/* English titles */
+html[dir="ltr"] h1,
+html[dir="ltr"] h2,
+html[dir="ltr"] h3,
+html[dir="ltr"] h4,
+html[dir="ltr"] h5,
+html[dir="ltr"] h6 {
+  font-family: "Mersin", sans-serif;
+  font-weight: 900;
+  font-style: italic;
+}
+
+/* English paragraphs */
+html[dir="ltr"] p {
+  font-family: "Neometric", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Special English text */
+html[dir="ltr"] .font-special {
+  font-family: "Amsterdam", cursive !important;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Optional manual font classes */
+.font-mersin {
+  font-family: "Mersin", sans-serif !important;
+}
+
+.font-neometric {
+  font-family: "Neometric", sans-serif !important;
+}
+
+.font-amsterdam {
+  font-family: "Amsterdam", cursive !important;
+}
 
 @layer base {
   :root {

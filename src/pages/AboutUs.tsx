@@ -55,18 +55,7 @@ const AboutUs = () => {
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#a97c3f] via-[#c9a15a] to-[#a97c3f] bg-[size:200%] animate-gradient-x">
                   {isRTL ? 'ليها بداية صح' : 'Starts with the Right Beginning'}
                 </span>
-                <svg viewBox="0 0 300 24" className="absolute -bottom-3 left-0 w-full h-6 overflow-visible" preserveAspectRatio="none">
-                  <motion.path
-                    d="M4,14 C60,4 110,20 150,10 C190,2 240,18 296,8"
-                    fill="none"
-                    stroke="#c9a15a"
-                    strokeWidth="5"
-                    strokeLinecap="round"
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 0.8 }}
-                    transition={{ duration: 1.2, delay: 0.6, ease: 'easeInOut' }}
-                  />
-                </svg>
+
               </span>
             </motion.h1>
 

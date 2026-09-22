@@ -1,26 +1,34 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from "framer-motion";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import {
+  ArrowLeft,
+  ArrowRight,
+  ExternalLink,
+  Scissors,
+  Sparkles,
+} from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
-import { ChevronLeft, ChevronRight, Scissors, Sparkles, ArrowRight, ArrowLeft, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const VARS: React.CSSProperties = {
-  "--ink": "#0E0D0A",
-  "--ink-soft": "#18140D",
-  "--panel": "#201A11",
-  "--gold": "#BE9A5A",
-  "--gold-light": "#E9D6A6",
-  "--ivory": "#F5EFE2",
-  "--hairline": "rgba(190,154,90,0.22)",
-};
+const VARS = {
+  "--ink": "#132D29",
+  "--ink-soft": "#1D3B36",
+  "--pearl": "#F5F1E9",
+  "--paper": "#FFFCF7",
+  "--champagne": "#C6A66A",
+  "--champagne-light": "#E6D5B2",
+  "--sage": "#AAB9AF",
+  "--muted": "#6F7F79",
+  "--hairline": "rgba(19,45,41,0.12)",
+} as React.CSSProperties;
 
 interface Case {
-  before: string;
-  after: string;
+  image: string;
 }
+
 interface Service {
   id: string;
   labelEn: string;
@@ -28,6 +36,7 @@ interface Service {
   case: Case;
   link: string;
 }
+
 interface Specialty {
   id: string;
   labelEn: string;
@@ -39,311 +48,499 @@ interface Specialty {
 
 const specialties: Specialty[] = [
   {
-    id: "non-surgical",
-    labelEn: "Non-Surgical",
-    labelAr: "التجميل غير الجراحي",
-    icon: <Sparkles className="w-5 h-5" />,
+    id: "lip-filler",
+    labelEn: "Lip Filler",
+    labelAr: "فيلر الشفايف",
+    icon: <Sparkles className="h-5 w-5" />,
     mainLink: "/services/dermatology",
     services: [
-      { id: "fillers", labelEn: "Fillers", labelAr: "الفيلر", link: "/services/dermatology", case: { before: "/images/imagecb1.png", after: "/images/imageca1.png" } },
-      { id: "botox", labelEn: "Botox", labelAr: "البوتوكس", link: "/services/dermatology", case: { before: "/images/imagecb5.png", after: "/images/imageca5.png" } },
-      { id: "skin-booster", labelEn: "Skin Booster", labelAr: "السكين بوستر", link: "/services/dermatology", case: { before: "/images/imagecb8.png", after: "/images/imageca8.png" } },
+      {
+        id: "lip-filler-case-1",
+        labelEn: "Case 1",
+        labelAr: "الحالة 1",
+        link: "/services/dermatology",
+        case: {
+          image: "/images/sally filler2.png",
+        },
+      },
+      {
+        id: "lip-filler-case-2",
+        labelEn: "Case 2",
+        labelAr: "الحالة 2",
+        link: "/services/dermatology",
+        case: {
+          image: "/images/tungsten-drsally-sep-case filler 10.jpg",
+        },
+      },
+      {
+        id: "lip-filler-case-3",
+        labelEn: "Case 3",
+        labelAr: "الحالة 3",
+        link: "/services/dermatology",
+        case: {
+          image: "/images/tungsten-dr.sally-LIPFILLER.png",
+        },
+      },
+      {
+        id: "lip-filler-case-4",
+        labelEn: "Case 4",
+        labelAr: "الحالة 4",
+        link: "/services/dermatology",
+        case: {
+          image: "/images/tungsten-drsally-sep-case filler 11.jpg",
+        },
+      },
+      {
+        id: "lip-filler-case-5",
+        labelEn: "Case 5",
+        labelAr: "الحالة 5",
+        link: "/services/dermatology",
+        case: {
+          image: "/images/tungsten-drsally-sep-case filler.jpg",
+        },
+      },
     ],
   },
   {
-    id: "surgical",
-    labelEn: "Surgical Procedures",
-    labelAr: "الإجراءات الجراحية",
-    icon: <Scissors className="w-5 h-5" />,
-    mainLink: "/services/plastic-surgery",
+    id: "hair-transplant",
+    labelEn: "Hair Transplant",
+    labelAr: "زراعة الشعر",
+    icon: <Scissors className="h-5 w-5" />,
+    mainLink: "/services/hair-restoration",
     services: [
-      { id: "breast-red", labelEn: "Breast Reduction", labelAr: "تصغير الثدي", link: "/services/plastic-surgery", case: { before: "/images/imagecb12.png", after: "/images/imageca12.png" } },
-      { id: "breast-aug", labelEn: "Breast Augmentation", labelAr: "تكبير الثدي", link: "/services/plastic-surgery", case: { before: "/images/imagecb13.png", after: "/images/imageca13.png" } },
-      { id: "lipo", labelEn: "Liposuction", labelAr: "شفط الدهون", link: "/services/plastic-surgery", case: { before: "/images/cases/lipo-before.jpg", after: "/images/cases/lipo-after.jpg" } },
-      { id: "fat-injection", labelEn: "Fat Injection", labelAr: "حقن الدهون", link: "/services/plastic-surgery", case: { before: "/images/cases/fat-before.jpg", after: "/images/cases/fat-after.jpg" } },
-      { id: "body-contour", labelEn: "Body Contouring", labelAr: "نحت الجسم", link: "/services/plastic-surgery", case: { before: "/images/cases/contour-before.jpg", after: "/images/cases/contour-after.jpg" } },
-      { id: "buttock", labelEn: "Buttock Augmentation", labelAr: "تكبير المؤخرة", link: "/services/plastic-surgery", case: { before: "/images/cases/buttock-before.jpg", after: "/images/cases/buttock-after.jpg" } },
+      {
+        id: "hair-transplant-case-1",
+        labelEn: "Case 1",
+        labelAr: "الحالة 1",
+        link: "/services/hair-restoration",
+        case: {
+          image: "/images/tungsten-dr.sally-hair.png",
+        },
+      },
+      {
+        id: "hair-transplant-case-2",
+        labelEn: "Case 2",
+        labelAr: "الحالة 2",
+        link: "/services/hair-restoration",
+        case: { image: "images/tungsten-dr.sally-cases-Nanofatpng.png" },
+      },
+      {
+        id: "hair-transplant-case-3",
+        labelEn: "Case 3",
+        labelAr: "الحالة 3",
+        link: "/services/hair-restoration",
+        case: { image: "images/tungsten-dr.sally-EXOSOME-HAIR-TREATMENT-new-layout.png" },
+      },
+    ],
+  },
+  {
+    id: "full-face",
+    labelEn: "Full Face",
+    labelAr: "الوجه بالكامل",
+    icon: <Sparkles className="h-5 w-5" />,
+    mainLink: "/services/dermatology-laser",
+    services: [
+      {
+        id: "full-face-case-1",
+        labelEn: "Case 1",
+        labelAr: "الحالة 1",
+        link: "/services/dermatology-laser",
+        case: {
+          image: "/images/tungsten-dr.sally-cases.-acne-scare..png",
+        },
+      },
+      {
+        id: "full-face-case-2",
+        labelEn: "Case 2",
+        labelAr: "الحالة 2",
+        link: "/services/dermatology-laser",
+        case: {
+          image: "/images/tungsten-dr.sally-cases-july-Full face enhancement.2.png",
+        },
+      },
+      {
+        id: "full-face-case-3",
+        labelEn: "Case 3",
+        labelAr: "الحالة 3",
+        link: "/services/dermatology-laser",
+        case: { image: "/images/case sally full face aug 2 (1).png" },
+      },
+    ],
+  },
+  {
+    id: "jawline-texas",
+    labelEn: "Jawline (Texas)",
+    labelAr: "تحديد الفك (تكساس)",
+    icon: <Sparkles className="h-5 w-5" />,
+    mainLink: "/services/dermatology-laser",
+    services: [
+      {
+        id: "jawline-texas-case-1",
+        labelEn: "Case 1",
+        labelAr: "الحالة 1",
+        link: "/services/dermatology-laser",
+        case: { image: "/images/tungsten-dr.sally-cases-july-jawline.png" },
+      },
+      {
+        id: "jawline-texas-case-2",
+        labelEn: "Case 2",
+        labelAr: "الحالة 2",
+        link: "/services/dermatology-laser",
+        case: { image: "/images/tungsten-dr.sally-cases-july-jawline-results.png" },
+      },
+      {
+        id: "jawline-texas-case-3",
+        labelEn: "Case 3",
+        labelAr: "الحالة 3",
+        link: "/images/tungsten-drSALLY CASES-TEXAS png.png",
+        case: { image: "/images/tungsten-drSALLY CASES-TEXAS png.png" },
+      },
     ],
   },
 ];
 
-const CornerBracket = ({ className }: { className: string }) => (
-  <svg viewBox="0 0 32 32" className={cn("absolute w-6 h-6 md:w-8 md:h-8 pointer-events-none", className)}>
-    <path d="M1 1 H16 M1 1 V16" stroke="var(--gold)" strokeWidth="2" fill="none" strokeLinecap="round" />
-  </svg>
+interface CaseArtworkProps {
+  image: string;
+  title: string;
+  language: string;
+}
+
+const CaseArtwork = ({
+  image,
+  title,
+  language,
+}: CaseArtworkProps) => (
+  <div className="relative isolate mx-auto max-w-3xl">
+    <div className="absolute -inset-3 rounded-[2.25rem] border border-[#C6A66A]/25 md:-inset-5 md:rounded-[3rem]" />
+    <div className="absolute -bottom-8 -right-8 h-40 w-40 rounded-full bg-[#AAB9AF]/30 blur-3xl" />
+
+    <div className="relative overflow-hidden rounded-[1.75rem] border border-[#132D29]/10 bg-[#FFFCF7] p-2.5 shadow-[0_35px_90px_rgba(19,45,41,0.16)] md:rounded-[2.5rem] md:p-3.5">
+      <AnimatePresence mode="wait">
+        <motion.figure
+          key={image}
+          initial={{ opacity: 0, y: 18, scale: 0.985 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -12, scale: 0.99 }}
+          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+          className="relative overflow-hidden rounded-[1.35rem] bg-[#EAE4D9] md:rounded-[2rem]"
+        >
+          {image ? (
+          <img
+            src={image}
+            alt={`${title} ${language === "en" ? "before and after result" : "نتيجة قبل وبعد"}`}
+            className="block h-auto w-full object-contain"
+          />
+          ) : (
+            <div className="flex min-h-[320px] flex-col items-center justify-center gap-3 px-6 py-16 text-center md:min-h-[480px]">
+              <Sparkles className="h-8 w-8 text-[#9C7940]" />
+              <p className="text-xl font-semibold text-[#132D29]">{title}</p>
+              <p className="text-sm text-[#6F7F79]">
+                {language === "en" ? "Case image coming soon" : "صورة الحالة هتتوفر قريب"}
+              </p>
+            </div>
+          )}
+
+          <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/30" />
+        </motion.figure>
+      </AnimatePresence>
+    </div>
+  </div>
 );
 
-const BeforeAfterSlider = ({ beforeImage, afterImage, language }: { beforeImage: string; afterImage: string; language: string }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [containerWidth, setContainerWidth] = useState(0);
-  const x = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 100, damping: 25 });
-
-  const clipWidth = useTransform(springX, (val) => {
-    if (containerWidth === 0) return 50;
-    return ((val + containerWidth / 2) / containerWidth) * 100;
-  });
-
-  useEffect(() => {
-    const updateWidth = () => {
-      if (containerRef.current) setContainerWidth(containerRef.current.offsetWidth);
-    };
-    updateWidth();
-    window.addEventListener("resize", updateWidth);
-    return () => window.removeEventListener("resize", updateWidth);
-  }, []);
-
-  useEffect(() => {
-    x.set(0);
-  }, [beforeImage, afterImage]);
-
-  return (
-    <div className="relative p-[3px] rounded-[2rem] md:rounded-[3rem]" style={{ background: "linear-gradient(135deg, var(--gold), transparent 30%, transparent 70%, var(--gold))" }}>
-      <div
-        ref={containerRef}
-        className="relative aspect-[3/4] md:aspect-[16/10] rounded-[calc(2rem-3px)] md:rounded-[calc(3rem-3px)] overflow-hidden cursor-ew-resize group"
-        style={{ background: "var(--panel)" }}
-      >
-        <div className="absolute inset-0">
-          <img src={beforeImage} alt="Before" className="w-full h-full object-cover" />
-          <div
-            className={cn("absolute top-5 md:top-7 px-3 py-1.5 md:px-4 md:py-2 border backdrop-blur-md", language === "ar" ? "right-5 md:right-7" : "left-5 md:left-7")}
-            style={{ background: "rgba(14,13,10,0.65)", borderColor: "var(--hairline)" }}
-          >
-            <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em]" style={{ color: "var(--ivory)" }}>
-              {language === "en" ? "Before" : "قبل"}
-            </span>
-          </div>
-        </div>
-
-        <motion.div className="absolute inset-0 overflow-hidden" style={{ clipPath: useTransform(clipWidth, (w) => `inset(0 0 0 ${w}%)`), background: "var(--panel)" }}>
-          <img src={afterImage} alt="After" className="w-full h-full object-cover" />
-          <div
-            className={cn("absolute top-5 md:top-7 px-3 py-1.5 md:px-4 md:py-2 border", language === "ar" ? "left-5 md:left-7" : "right-5 md:right-7")}
-            style={{ background: "var(--gold)", borderColor: "var(--gold-light)" }}
-          >
-            <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em]" style={{ color: "var(--ink)" }}>
-              {language === "en" ? "After" : "بعد"}
-            </span>
-          </div>
-        </motion.div>
-
-        <motion.div
-          drag="x"
-          dragConstraints={{ left: -containerWidth / 2, right: containerWidth / 2 }}
-          dragElastic={0}
-          dragMomentum={false}
-          style={{ x, left: "50%", translateX: "-50%" }}
-          className="absolute inset-y-0 z-30 flex items-center justify-center touch-none"
-        >
-          <div className="w-px h-full relative" style={{ background: "var(--gold)", boxShadow: "0 0 12px rgba(190,154,90,0.6)" }}>
-            <div
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11 h-11 md:w-12 md:h-12 rotate-45 border flex items-center justify-center transition-transform group-hover:scale-110"
-              style={{ background: "var(--ink)", borderColor: "var(--gold)" }}
-            >
-              <div className="-rotate-45 flex gap-0.5" style={{ color: "var(--gold-light)" }}>
-                <ChevronLeft className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                <ChevronRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
-              </div>
-            </div>
-          </div>
-        </motion.div>
-
-        <motion.div
-          key={beforeImage + afterImage}
-          initial={{ scaleX: 1 }}
-          animate={{ scaleX: 0 }}
-          transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
-          style={{ background: "var(--gold)", transformOrigin: language === "ar" ? "left" : "right" }}
-          className="absolute inset-0 z-40 pointer-events-none"
-        />
-      </div>
-
-      <CornerBracket className="top-0 left-0" />
-      <CornerBracket className="top-0 right-0 rotate-90" />
-      <CornerBracket className="bottom-0 right-0 rotate-180" />
-      <CornerBracket className="bottom-0 left-0 -rotate-90" />
-    </div>
-  );
-};
+interface SpecialtyRailProps {
+  active: Specialty;
+  onSelect: (specialty: Specialty) => void;
+  language: string;
+}
 
 const SpecialtyRail = ({
   active,
   onSelect,
   language,
-}: {
-  active: Specialty;
-  onSelect: (s: Specialty) => void;
-  language: string;
-}) => (
-  <div className="relative flex lg:flex-col gap-2 lg:gap-1">
-    <div className="absolute lg:left-[27px] top-1/2 lg:top-0 left-0 lg:bottom-0 right-0 lg:right-auto h-px lg:h-full lg:w-px -translate-y-1/2 lg:translate-y-0" style={{ background: "var(--hairline)" }} />
-    {specialties.map((specialty) => {
-      const isActive = active.id === specialty.id;
-      return (
-        <button
-          key={specialty.id}
-          onClick={() => onSelect(specialty)}
-          className="relative z-10 flex items-center gap-4 py-3 lg:py-4 px-2 lg:px-0 flex-shrink-0 group text-left rtl:text-right"
-        >
-          <span className="relative flex items-center justify-center w-14 h-14 rounded-full border shrink-0 transition-colors duration-500" style={{ borderColor: isActive ? "var(--gold)" : "var(--hairline)", background: "var(--ink)" }}>
-            {isActive && (
-              <motion.span layoutId="specialty-dot" className="absolute inset-0 rounded-full" style={{ boxShadow: "0 0 0 1px var(--gold), 0 0 18px rgba(190,154,90,0.45)" }} transition={{ type: "spring", stiffness: 300, damping: 28 }} />
+}: SpecialtyRailProps) => {
+  return (
+    <div className="relative flex gap-3 overflow-x-auto pb-2 lg:flex-col lg:gap-2 lg:overflow-visible lg:pb-0">
+      <div className="absolute left-7 right-7 top-7 hidden h-px bg-[#132D29]/10 sm:block lg:bottom-7 lg:left-7 lg:right-auto lg:top-7 lg:h-auto lg:w-px" />
+
+      {specialties.map((specialty) => {
+        const isActive = active.id === specialty.id;
+
+        return (
+          <button
+            key={specialty.id}
+            type="button"
+            onClick={() => onSelect(specialty)}
+            className={cn(
+              "group relative z-10 flex min-w-fit items-center gap-4 rounded-2xl border px-3 py-3 text-left transition-all duration-300 rtl:text-right lg:w-full lg:px-3 lg:py-4",
+              isActive
+                ? "border-[#132D29]/10 bg-white/70 shadow-[0_16px_40px_rgba(19,45,41,0.08)]"
+                : "border-transparent bg-transparent hover:border-[#132D29]/10 hover:bg-white/45"
             )}
-            <span style={{ color: isActive ? "var(--gold-light)" : "rgba(245,239,226,0.4)" }} className="transition-colors duration-500">
+          >
+            <span
+              className={cn(
+                "relative flex h-14 w-14 shrink-0 items-center justify-center rounded-full border transition-all duration-300",
+                isActive
+                  ? "border-[#132D29] bg-[#132D29] text-[#F5F1E9]"
+                  : "border-[#132D29]/12 bg-white/70 text-[#132D29]/35 group-hover:border-[#C6A66A] group-hover:text-[#132D29]"
+              )}
+            >
               {specialty.icon}
+
+              {isActive && (
+                <motion.span
+                  layoutId="specialty-ring"
+                  className="absolute -inset-1 rounded-full border border-[#C6A66A]/45"
+                  transition={{
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 28,
+                  }}
+                />
+              )}
             </span>
-          </span>
-          <span className="hidden sm:flex flex-col">
-            <span className="text-sm md:text-base font-semibold tracking-tight transition-colors duration-500" style={{ color: isActive ? "var(--ivory)" : "rgba(245,239,226,0.45)" }}>
-              {language === "en" ? specialty.labelEn : specialty.labelAr}
+
+            <span className="flex flex-col">
+              <span
+                className={cn(
+                  "text-sm font-semibold tracking-tight transition-colors md:text-base",
+                  isActive
+                    ? "text-[#132D29]"
+                    : "text-[#132D29]/45 group-hover:text-[#132D29]/75"
+                )}
+              >
+                {language === "en"
+                  ? specialty.labelEn
+                  : specialty.labelAr}
+              </span>
+
+              <span
+                className={cn(
+                  "mt-1 text-[9px] font-medium uppercase tracking-[0.2em]",
+                  isActive ? "text-[#9C7940]" : "text-[#132D29]/25"
+                )}
+              >
+                {specialty.services.filter((service) => service.case.image).length}{" "}
+                {language === "en" ? "Cases" : "حالات"}
+              </span>
             </span>
-            <span className="text-[10px] uppercase tracking-[0.2em] transition-colors duration-500" style={{ color: isActive ? "var(--gold)" : "rgba(245,239,226,0.25)" }}>
-              {specialty.services.length} {language === "en" ? "Cases" : "حالات"}
-            </span>
-          </span>
-        </button>
-      );
-    })}
-  </div>
-);
+          </button>
+        );
+      })}
+    </div>
+  );
+};
+
+interface CaseTabsProps {
+  services: Service[];
+  active: Service;
+  onSelect: (service: Service) => void;
+  language: string;
+}
 
 const CaseTabs = ({
   services,
   active,
   onSelect,
   language,
-}: {
-  services: Service[];
-  active: Service;
-  onSelect: (s: Service) => void;
-  language: string;
-}) => (
-  <div className="flex gap-1 overflow-x-auto pb-1 no-scrollbar">
-    {services.map((service) => {
-      const isActive = active.id === service.id;
-      return (
-        <button
-          key={service.id}
-          onClick={() => onSelect(service)}
-          className="relative px-4 py-3 md:px-5 md:py-3.5 whitespace-nowrap text-[10px] md:text-[11px] font-bold uppercase tracking-[0.15em] transition-colors duration-300"
-          style={{ color: isActive ? "var(--gold-light)" : "rgba(245,239,226,0.45)" }}
-        >
-          {language === "en" ? service.labelEn : service.labelAr}
-          {isActive && (
-            <motion.span layoutId="case-underline" className="absolute left-3 right-3 -bottom-[1px] h-px" style={{ background: "linear-gradient(90deg, transparent, var(--gold), transparent)" }} transition={{ duration: 0.3, ease: [0.65, 0, 0.35, 1] }} />
-          )}
-        </button>
-      );
-    })}
-  </div>
-);
+}: CaseTabsProps) => {
+  return (
+    <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
+      {services.map((service) => {
+        const isActive = active.id === service.id;
+
+        return (
+          <button
+            key={service.id}
+            type="button"
+            onClick={() => onSelect(service)}
+            className={cn(
+              "relative whitespace-nowrap rounded-full border px-5 py-3 text-[10px] font-semibold uppercase tracking-[0.16em] transition-all duration-300 md:px-6 md:text-[11px]",
+              isActive
+                ? "border-[#132D29] bg-[#132D29] text-[#F5F1E9] shadow-[0_14px_30px_rgba(19,45,41,0.14)]"
+                : "border-[#132D29]/10 bg-white/60 text-[#132D29]/50 hover:border-[#C6A66A] hover:bg-white hover:text-[#132D29]"
+            )}
+          >
+            {language === "en" ? service.labelEn : service.labelAr}
+          </button>
+        );
+      })}
+    </div>
+  );
+};
 
 const RealResults = () => {
   const { language, isRTL } = useLanguage();
-  const [activeSpecialty, setActiveSpecialty] = useState(specialties[0]);
-  const [activeService, setActiveService] = useState(specialties[0].services[0]);
+
+  const [activeSpecialty, setActiveSpecialty] = useState<Specialty>(
+    specialties[0]
+  );
+
+  const [activeService, setActiveService] = useState<Service>(
+    specialties[0].services[0]
+  );
+
   const ArrowIcon = isRTL ? ArrowLeft : ArrowRight;
 
-  const header = {
-    subtitle: language === "en" ? "Transformative Journeys" : "رحلات التحول",
-    title1: language === "en" ? "REAL" : "نتائج",
-    title2: language === "en" ? "RESULTS" : "تبهرك",
-  };
+const header = {
+  subtitle:
+    language === "en" ? "Transformation Journeys" : "رحلات التحول",
 
-  const handleSpecialty = (s: Specialty) => {
-    setActiveSpecialty(s);
-    setActiveService(s.services[0]);
+  title1:
+    language === "en" ? "Results That" : "نتائج",
+
+  title2:
+    language === "en" ? "Speak for Themselves" : "تتحدث عن نفسها",
+};
+
+  const handleSpecialty = (specialty: Specialty) => {
+    setActiveSpecialty(specialty);
+    setActiveService(specialty.services[0]);
   };
 
   return (
-    <section id="real-results" style={VARS} className="relative py-20 md:py-36 overflow-hidden">
-      <div className="absolute inset-0 -z-20" style={{ background: "var(--ink)" }} />
-      <div className="absolute inset-0 -z-10 opacity-[0.05] bg-[linear-gradient(to_right,#BE9A5A_1px,transparent_1px),linear-gradient(to_bottom,#BE9A5A_1px,transparent_1px)] bg-[size:40px_40px]" />
-      <div className="absolute left-1/2 top-0 -translate-x-1/2 -z-10 w-[70vw] max-w-[900px] aspect-square rounded-full opacity-[0.10] blur-[100px]" style={{ background: "var(--gold)" }} />
+    <section
+      id="real-results"
+      dir={isRTL ? "rtl" : "ltr"}
+      style={VARS}
+      className="relative overflow-hidden bg-[#F5F1E9] py-20 md:py-32"
+    >
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_82%_12%,rgba(198,166,106,0.22),transparent_32%),radial-gradient(circle_at_8%_88%,rgba(170,185,175,0.32),transparent_30%)]" />
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 md:mb-24 gap-6 md:gap-10">
-          <motion.div initial={{ opacity: 0, x: isRTL ? 30 : -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
-            <span className="flex items-center gap-2 text-sm md:text-base mb-4 font-bold tracking-[0.25em] uppercase" style={{ color: "var(--gold-light)" }}>
-              <Sparkles className="w-4 h-4" style={{ color: "var(--gold)" }} />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#C6A66A]/70 to-transparent" />
+
+      <div className="pointer-events-none absolute right-[-10rem] top-24 h-[28rem] w-[28rem] rounded-full border border-[#132D29]/5" />
+
+      <div className="pointer-events-none absolute right-[-6rem] top-40 h-[20rem] w-[20rem] rounded-full border border-[#C6A66A]/15" />
+
+      <div className="container relative z-10 mx-auto px-4 md:px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{
+            duration: 0.8,
+            ease: [0.16, 1, 0.3, 1],
+          }}
+          className={cn(
+            "relative mb-14 max-w-3xl md:mb-20",
+            isRTL ? "text-right" : "text-left"
+          )}
+        >
+          <div className="mb-6 flex items-center gap-4">
+            <span className="h-px w-10 bg-[#C6A66A]" />
+
+            <span className="text-[10px] font-semibold uppercase tracking-[0.32em] text-[#8F6D35] md:text-xs">
               {header.subtitle}
             </span>
-            <h2 className="text-5xl md:text-8xl lg:text-[8.5rem] font-serif font-black tracking-tighter leading-[0.88] uppercase" style={{ color: "var(--ivory)" }}>
-              {header.title1} <br className="hidden md:block" />
-              <span className="italic md:ml-4" style={{ WebkitTextStroke: "1.5px var(--gold)", color: "transparent" }}>
-                {header.title2}
-              </span>
-            </h2>
-          </motion.div>
+          </div>
 
-          <p className={cn("text-xs md:text-sm max-w-xs uppercase font-bold tracking-[0.2em] md:tracking-[0.3em] leading-relaxed", isRTL && "text-right")} style={{ color: "rgba(245,239,226,0.45)" }}>
-            {language === "en" ? "Real results for different cases, with tailored treatment plans and aesthetic touches that preserve a natural look." : "شوف نتائج حقيقية لحالات مختلفة، بخطط علاج مدروسة ولمسات تجميلية تحافظ على المظهر الطبيعي."}
-          </p>
-        </div>
+          <h2
+            className={cn(
+              "leading-[0.92] tracking-tight",
+              isRTL ? "font-mudir" : "font-mersin"
+            )}
+          >
+            <span className="block text-5xl font-semibold text-[#132D29] md:text-7xl lg:text-[5.5rem]">
+              {header.title1}
+            </span>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-16 items-start">
-          <div className="lg:col-span-3">
-            <SpecialtyRail active={activeSpecialty} onSelect={handleSpecialty} language={language} />
+            <span className="mt-3 block text-4xl text-[#9C7940] md:text-6xl lg:text-[4.8rem]">
+              {header.title2}
+            </span>
+          </h2>
+
+        <p className="mt-7 max-w-xl text-sm leading-7 text-[#132D29]/60 md:text-base md:leading-8">
+          {language === "en"
+            ? "Explore real results from different cases, with carefully planned treatment and aesthetic procedures that preserve a natural look."
+            : "اكتشفي نتائج حقيقية لحالات مختلفة، من خلال خطط علاج مدروسة وإجراءات تجميلية تحافظ على المظهر الطبيعي."}
+        </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-14">
+          <aside className="lg:col-span-3">
+            <SpecialtyRail
+              active={activeSpecialty}
+              onSelect={handleSpecialty}
+              language={language}
+            />
+
             <AnimatePresence mode="wait">
-              <motion.div key={activeSpecialty.id} initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.25 }} className="mt-4 ml-2 lg:ml-[72px]">
+              <motion.div
+                key={activeSpecialty.id}
+                initial={{ opacity: 0, y: -6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.25 }}
+                className="mt-5 lg:ms-[76px]"
+              >
                 <Link
                   to={activeSpecialty.mainLink}
-                  className="inline-flex items-center gap-2 border text-[9px] md:text-[10px] px-5 py-2.5 uppercase tracking-widest transition-colors duration-300"
-                  style={{ borderColor: "var(--hairline)", color: "rgba(245,239,226,0.6)" }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = "var(--gold)";
-                    e.currentTarget.style.color = "var(--gold-light)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = "var(--hairline)";
-                    e.currentTarget.style.color = "rgba(245,239,226,0.6)";
-                  }}
+                  className="group inline-flex items-center gap-2 rounded-full border border-[#132D29]/15 bg-white/45 px-5 py-2.5 text-[9px] font-semibold uppercase tracking-[0.16em] text-[#132D29]/55 transition-all duration-300 hover:border-[#C6A66A] hover:bg-white hover:text-[#132D29] md:text-[10px]"
                 >
-                  <ExternalLink className="w-3 h-3" />
+                  <ExternalLink className="h-3 w-3" />
+
                   {language === "en" ? "View Page" : "عرض الصفحة"}
                 </Link>
               </motion.div>
             </AnimatePresence>
-          </div>
+          </aside>
 
           <div className="lg:col-span-9">
-            <div className="mb-8 md:mb-10">
-              <CaseTabs services={activeSpecialty.services} active={activeService} onSelect={setActiveService} language={language} />
+            <div className="mb-7 md:mb-9">
+              <CaseTabs
+                services={activeSpecialty.services}
+                active={activeService}
+                onSelect={setActiveService}
+                language={language}
+              />
             </div>
 
-            <BeforeAfterSlider beforeImage={activeService.case.before} afterImage={activeService.case.after} language={language} />
+            <CaseArtwork
+              image={activeService.case.image}
+              title={language === "en" ? activeService.labelEn : activeService.labelAr}
+              language={language}
+            />
 
-            <div className="mt-9 md:mt-12 flex flex-col md:flex-row md:items-center justify-between gap-6 border-t pt-8 md:pt-10" style={{ borderColor: "var(--hairline)" }}>
-              <div className="space-y-2">
-                <h3 className="text-2xl md:text-3xl font-serif font-bold italic" style={{ color: "var(--ivory)" }}>
-                  {language === "en" ? activeService.labelEn : activeService.labelAr}
+            <div className="mt-8 flex flex-col gap-6 border-t border-[#132D29]/10 pt-8 md:mt-10 md:flex-row md:items-center md:justify-between md:pt-10">
+              <div className="space-y-3">
+                <h3
+                  className={cn(
+                    "text-2xl font-semibold text-[#132D29] md:text-3xl",
+                    isRTL ? "font-mudir" : "font-neometric"
+                  )}
+                >
+                  {language === "en"
+                    ? activeService.labelEn
+                    : activeService.labelAr}
                 </h3>
-                <Link to={activeService.link} className="flex items-center gap-2 group w-fit">
-                  <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.25em] transition-colors duration-300" style={{ color: "rgba(245,239,226,0.4)" }}>
-                    {language === "en" ? "Procedure Details" : "تفاصيل الإجراء"}
+
+                <Link
+                  to={activeService.link}
+                  className="group flex w-fit items-center gap-2"
+                >
+                  <span className="text-[9px] font-semibold uppercase tracking-[0.22em] text-[#132D29]/45 transition-colors duration-300 group-hover:text-[#8F6D35] md:text-[10px]">
+                    {language === "en"
+                      ? "Procedure Details"
+                      : "تفاصيل الإجراء"}
                   </span>
-                  <ArrowIcon className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-0.5" style={{ color: "var(--gold)" }} />
+
+                  <ArrowIcon className="h-3 w-3 text-[#9C7940] transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
                 </Link>
               </div>
 
               <Link to="/contact-us" className="w-full md:w-auto">
                 <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.97 }}
-                  className="flex items-center justify-center gap-3 w-full md:w-auto px-8 py-4 md:px-10 md:py-5 text-[9px] md:text-[10px] font-black uppercase tracking-widest border transition-colors duration-300"
-                  style={{ borderColor: "var(--gold)", color: "var(--gold-light)" }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "var(--gold)";
-                    e.currentTarget.style.color = "var(--ink)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "transparent";
-                    e.currentTarget.style.color = "var(--gold-light)";
-                  }}
+                  type="button"
+                  whileHover={{ y: -3 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="group flex w-full items-center justify-center gap-3 rounded-full bg-[#132D29] px-8 py-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#F5F1E9] shadow-[0_18px_50px_rgba(19,45,41,0.18)] transition-all duration-300 hover:bg-[#1D3B36] md:w-auto md:px-10 md:py-5"
                 >
-                  {language === "en" ? "Book Similar Result" : "احجزي نتيجة مماثلة"}
-                  <ArrowIcon className="w-4 h-4" />
+                  {language === "en"
+                    ? "Book Your Consultation"
+                    : "احجز استشارتك"}
+
+                  <ArrowIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
                 </motion.button>
               </Link>
             </div>

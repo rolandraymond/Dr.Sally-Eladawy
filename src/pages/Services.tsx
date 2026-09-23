@@ -1,172 +1,213 @@
-import React, { useRef } from 'react';
+import React, { useId, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform, Variants } from 'framer-motion';
-import { ArrowRight, Sparkles, Apple, Scissors } from 'lucide-react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { ArrowRight, Sparkles, Apple, Scissors, Plus, Minus } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
-const Services = () => {
-  const { t, isRTL } = useLanguage();
-  const sectionRef = useRef<HTMLDivElement>(null);
+const styles = `
+.elite-services{background:#f5f1ea;color:#191919;padding:100px 24px;overflow:hidden;font-family:Arial,sans-serif;font-style:normal}
+.elite-services[dir="rtl"]{font-family:Cairo,Tahoma,Arial,sans-serif}
+.elite-services *{box-sizing:border-box}
+.elite-services h2,.elite-services h3,.elite-services p{margin:0;font-family:inherit;font-style:normal}
+.elite-services button,.elite-services a{font-family:inherit;font-style:normal}
+.elite-services .es-wrap{max-width:1280px;margin:auto}
+.elite-services .es-eyebrow{display:flex;align-items:center;gap:14px;color:#786344;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;margin-bottom:26px}
+.elite-services[dir="rtl"] .es-eyebrow{letter-spacing:0}
+.elite-services .es-eyebrow:before{content:"";width:36px;height:1px;background:#b39763}
+.elite-services .es-header{display:grid;grid-template-columns:1.2fr 1fr;gap:64px;align-items:end;margin-bottom:54px}
+.elite-services .es-title{font-size:clamp(34px,4.3vw,60px);font-weight:400;line-height:1.12;letter-spacing:-.045em;max-width:700px}
+.elite-services .es-title span{display:block;color:#88704d;margin-top:5px}
+.elite-services[dir="rtl"] .es-title{letter-spacing:0;line-height:1.5}
+.elite-services .es-intro{font-size:15px;line-height:1.9;color:#68645e;max-width:470px;padding-bottom:4px}
+.elite-services .es-layout{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(32px,6vw,88px);align-items:center}
+.elite-services .es-visual{position:relative;height:570px;border-radius:5px;overflow:hidden;background:#e6ded0}
+.elite-services .es-photo{position:absolute;inset:0;background:#e6ded0;overflow:hidden}
+.elite-services .es-photo img{position:absolute;width:100%;height:100%;inset:0;object-fit:cover}
+.elite-services .es-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 30% 20%,#eee5d7,transparent 60%),linear-gradient(145deg,#ded2be,#a9987d);color:#f9f5ec}
+.elite-services .es-fallback svg{width:100px;height:100px;stroke-width:.7}
+.elite-services .es-image-shade{position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(25,25,25,.55));pointer-events:none}
+.elite-services .es-image-label{position:absolute;bottom:28px;inset-inline:28px;display:flex;align-items:center;gap:16px;color:white;font-size:15px;line-height:1.5}
+.elite-services .es-image-label span:first-child{font-size:12px;border:1px solid #ffffff60;padding:10px;border-radius:50%;font-variant-numeric:tabular-nums}
+.elite-services .es-list{border-top:1px solid #d6cfc2}
+.elite-services .es-item{border-bottom:1px solid #d6cfc2}
+.elite-services .es-trigger{width:100%;display:flex;align-items:center;gap:20px;padding:28px 0;background:none;border:0;color:#69655e;cursor:pointer;text-align:start;transition:color .2s}
+.elite-services .es-trigger:hover,.elite-services .es-trigger[aria-expanded="true"]{color:#191919}
+.elite-services .es-number{font-size:11px;color:#88704d;font-weight:400;align-self:flex-start;padding-top:9px;font-variant-numeric:tabular-nums}
+.elite-services .es-name{flex:1;font-size:clamp(21px,2.1vw,29px);font-weight:400;line-height:1.35;letter-spacing:-.025em}
+.elite-services[dir="rtl"] .es-name{letter-spacing:0;line-height:1.65}
+.elite-services .es-toggle{flex-shrink:0;width:36px;height:36px;border:1px solid #cfc5b4;border-radius:50%;display:grid;place-items:center;transition:background .2s,color .2s}
+.elite-services .es-trigger[aria-expanded="true"] .es-toggle{background:#191919;color:#f5f1ea;border-color:#191919}
+.elite-services .es-panel-inner{padding:0 0 30px;padding-inline-start:34px}
+.elite-services .es-description{font-size:14px;line-height:1.9;color:#68645e;max-width:460px}
+.elite-services .es-link{display:inline-flex;align-items:center;gap:18px;margin-top:24px;color:#191919;text-decoration:none;font-size:12px;font-weight:600;padding:8px 0;border-bottom:1px solid #b39763}
+.elite-services .es-link svg{transition:transform .2s}
+.elite-services .es-link:hover svg{transform:translateX(4px)}
+.elite-services[dir="rtl"] .es-link svg{transform:rotate(180deg)}
+.elite-services[dir="rtl"] .es-link:hover svg{transform:translateX(-4px) rotate(180deg)}
+.elite-services .es-trigger:focus-visible,.elite-services .es-link:focus-visible{outline:2px solid #88704d;outline-offset:5px;border-radius:2px}
+.elite-services .es-mobile-visual{display:none}
+.elite-services .es-footer{display:flex;align-items:center;justify-content:space-between;margin-top:20px;color:#887e6d;font-size:10px;letter-spacing:.13em;text-transform:uppercase}
+.elite-services[dir="rtl"] .es-footer{letter-spacing:0}
+.elite-services .es-dots{display:flex;gap:6px}
+.elite-services .es-dot{width:6px;height:6px;border-radius:50%;background:#d6cfc2}
+.elite-services .es-dot.is-active{background:#88704d}
+@media(min-width:768px) and (max-width:1023px){.elite-services .es-header{gap:32px}.elite-services .es-visual{height:510px}.elite-services .es-trigger{gap:12px}.elite-services .es-panel-inner{padding-inline-start:26px}}
+@media(max-width:767px){.elite-services{padding:64px 20px}.elite-services .es-header{grid-template-columns:1fr;gap:22px;margin-bottom:34px}.elite-services .es-title{font-size:38px}.elite-services .es-intro{font-size:14px}.elite-services .es-layout{grid-template-columns:1fr;gap:0}.elite-services .es-desktop-visual{display:none}.elite-services .es-mobile-visual{display:block;position:relative;height:260px;overflow:hidden;border-radius:4px;margin-bottom:20px}.elite-services .es-trigger{padding:24px 0;gap:12px}.elite-services .es-name{font-size:22px}.elite-services .es-panel-inner{padding-inline-start:0}.elite-services .es-eyebrow{margin-bottom:20px}.elite-services .es-image-label{bottom:20px;inset-inline:20px}}
+@media(prefers-reduced-motion:reduce){.elite-services *{transition:none!important}}
+`;
 
-  // تأثير Parallax بسيط للخلفية
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"]
-  });
-  const yBg = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+type ServiceImageProps = {
+  src: string;
+  title: string;
+  number: string;
+  icon: typeof Sparkles;
+};
+
+// Failed remote images get a designed fallback instead of a broken-image label.
+const ServiceImage = ({ src, title, number, icon: Icon }: ServiceImageProps) => {
+  const [failed, setFailed] = useState(false);
+  return (
+    <div className="es-photo">
+      <div className="es-fallback" aria-hidden="true"><Icon /></div>
+      {!failed && (
+        <img src={src} alt="" loading="lazy" decoding="async" onError={() => setFailed(true)} />
+      )}
+      <div className="es-image-shade" />
+      <div className="es-image-label" aria-hidden="true">
+        <span>{number}</span><span>{title}</span>
+      </div>
+    </div>
+  );
+};
+
+const Services = () => {
+  const { isRTL } = useLanguage();
+  const [activeIndex, setActiveIndex] = useState(0);
+  const reduceMotion = useReducedMotion();
+  const instanceId = useId();
+  const duration = reduceMotion ? 0 : 0.3;
 
   const services = [
     {
       id: '01',
-      title: 'الجلدية والليزر',
-      description: 'علاجات متقدمة لمشاكل البشرة، وإجراءات الليزر والحقن التجميلية، مع اختيار التقنية المناسبة حسب طبيعة كل حالة.',
+      title: isRTL ? 'الجلدية والليزر' : 'Dermatology & Laser',
+      description: isRTL
+        ? 'علاجات متقدمة لمشاكل البشرة، وإجراءات الليزر والحقن التجميلية، مع اختيار التقنية المناسبة حسب طبيعة كل حالة.'
+        : 'Advanced treatments for skin concerns, along with laser procedures and aesthetic injectables, with the right technology selected for each case.',
       icon: Sparkles,
-      image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=2070&auto=format&fit=crop',
+      image: '/images/ChatGPT Image Sep 22, 2026, 04_20_42 PM.png',
       href: '/services/dermatology-laser',
-      bgGradient: 'from-purple-500/20 to-blue-500/20'
     },
     {
       id: '02',
-      title: 'التغذية العلاجية ونحت الجسم',
-      description: 'من خطط التغذية المخصصة لتقنيات نحت الجسم المتقدمة، بنشتغل على الوصول لتغيير متوازن يناسب احتياجات كل حالة.',
+      title: isRTL ? 'التغذية العلاجية ونحت الجسم' : 'Medical Nutrition & Body Contouring',
+      description: isRTL
+        ? 'من خطط التغذية المخصصة لتقنيات نحت الجسم المتقدمة، بنشتغل على الوصول لتغيير متوازن يناسب احتياجات كل حالة.'
+        : 'From personalized nutrition plans to advanced body-contouring techniques, we work toward balanced changes that suit each case and its needs.',
       icon: Apple,
-      image: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=2053&auto=format&fit=crop',
+      image: '/images/ChatGPT Image Sep 22, 2026, 04_26_02 PM.png',
       href: '/services/nutrition-contouring',
-      bgGradient: 'from-green-500/20 to-emerald-500/20'
     },
     {
       id: '03',
-      title: 'زراعة وعلاج الشعر',
-      description: 'حلول متخصصة لزراعة الشعر وعلاج مشكلاته، باستخدام تقنيات وأساليب علاجية مناسبة لطبيعة كل حالة.',
+      title: isRTL ? 'زراعة وعلاج الشعر' : 'Hair Transplantation & Treatment',
+      description: isRTL
+        ? 'حلول متخصصة لزراعة الشعر وعلاج مشكلاته، باستخدام تقنيات وأساليب علاجية مناسبة لطبيعة كل حالة.'
+        : 'Specialized solutions for hair transplantation and hair concerns, using treatment techniques suited to each individual case.',
       icon: Scissors,
-      image: 'https://images.unsplash.com/photo-1595476103518-3c18c81f1a0a?q=80&w=2070&auto=format&fit=crop',
+      image: '/images/ChatGPT Image Sep 22, 2026, 04_27_58 PM.png',
       href: '/services/hair-restoration',
-      bgGradient: 'from-yellow-500/20 to-orange-500/20'
     },
   ];
-
-  // Animation Variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.2 }
-    }
-  };
-
-  const cardVariants: Variants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      transition: { duration: 0.8, ease: "easeOut" } 
-    }
-  };
+  const active = services[activeIndex];
 
   return (
-    <section 
-      id="services" 
-      ref={sectionRef} 
-      className="relative pt-32 pb-24 bg-white overflow-hidden"
-    >
-       {/* ================= BACKGROUND DECORATION ================= */}
-       <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:32px_32px] opacity-60 pointer-events-none" />
-
-       <motion.div 
-         style={{ y: yBg }}
-         className="absolute top-0 right-0 w-[600px] h-[600px] bg-slate-100 rounded-full blur-[100px] -z-10 opacity-70"
-       />
-
-      <div className="container mx-auto px-4 sm:px-6 relative z-10">
-
-        {/* ================= HEADER ================= */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-20 max-w-3xl mx-auto"
-        >
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <span className="h-px w-8 bg-yellow-500"></span>
-            <span className="text-yellow-600 font-bold text-xs uppercase tracking-widest">
-              {isRTL ? 'خدماتنا' : 'Our Services'}
-            </span>
-            <span className="h-px w-8 bg-yellow-500"></span>
-          </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 font-cairo leading-tight">
-            {isRTL ? 'كل خدمة تبدأ' : 'Medical Care Beyond'} <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-600 to-yellow-500">
-              {isRTL ? 'بفهم احتياجات الحالة' : 'Expectations'}
-            </span>
+    <section id="services" className="elite-services" dir={isRTL ? 'rtl' : 'ltr'} aria-labelledby={`${instanceId}-title`}>
+      <style>{styles}</style>
+      <div className="es-wrap">
+        <div className="es-eyebrow">{isRTL ? 'خدماتنا' : 'Our Services'}</div>
+        <div className="es-header">
+          <h2 id={`${instanceId}-title`} className="es-title">
+            {isRTL ? 'كل خدمة تبدأ' : 'Every Service Starts With'}
+            <span>{isRTL ? 'بفهم احتياجات الحالة' : 'Understanding the Case'}</span>
           </h2>
-          <p className="text-slate-500 text-lg leading-relaxed">
-            {isRTL 
+          <p className="es-intro">
+            {isRTL
               ? 'من الجلدية والليزر، للتغذية ونحت الجسم، وزراعة وعلاج الشعر، كل خدمة لها طريقة مختلفة في التقييم والعلاج، والهدف دايمًا اختيار الأنسب لكل حالة.'
-              : 'We provide a comprehensive range of aesthetic and therapeutic services designed specifically to highlight your natural beauty.'}
+              : 'From dermatology and laser treatments to nutrition, body contouring, and hair transplantation, every service requires a different approach to assessment and treatment. The goal is always to choose what is right for each case.'}
           </p>
-        </motion.div>
+        </div>
 
-        {/* ================= SERVICES CARDS ================= */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 lg:grid-cols-3 gap-8"
-        >
-          {services.map((service) => (
-            <motion.div key={service.id} variants={cardVariants} className="h-full">
-              <Link to={service.href} className="group relative block h-[500px] w-full overflow-hidden rounded-[2rem] shadow-2xl transition-all duration-500 hover:-translate-y-2">
+        <div className="es-layout">
+          <div className="es-desktop-visual" aria-hidden="true">
+            <div className="es-visual">
+              <AnimatePresence initial={false}>
+                <motion.div key={active.id} style={{ position: 'absolute', inset: 0 }}
+                  initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration }}>
+                  <ServiceImage src={active.image} title={active.title} number={active.id} icon={active.icon} />
+                </motion.div>
+              </AnimatePresence>
+            </div>
+            <div className="es-footer">
+              <span>{isRTL ? 'رعاية تناسب احتياجاتك' : 'Care, considered for you'}</span>
+              <div className="es-dots">
+                {services.map((service, index) => <span key={service.id} className={`es-dot${activeIndex === index ? ' is-active' : ''}`} />)}
+              </div>
+            </div>
+          </div>
 
-                {/* 1. Background Image */}
-                <div className="absolute inset-0 h-full w-full">
-                  <img 
-                    src={service.image} 
-                    alt={service.title} 
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#05151F] via-[#05151F]/40 to-transparent opacity-80 group-hover:opacity-70 transition-opacity duration-500" />
-                </div>
-
-                {/* 2. Top Content (Icon & Number) */}
-                <div className="absolute top-0 left-0 right-0 p-8 flex justify-between items-start z-20">
-                   <div className={`p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 text-white shadow-lg group-hover:bg-yellow-500 group-hover:text-black transition-colors duration-300`}>
-                      <service.icon className="w-8 h-8" />
-                   </div>
-                   <span className="text-6xl font-bold text-white/10 font-mono tracking-tighter select-none">
-                      {service.id}
-                   </span>
-                </div>
-
-                {/* 3. Bottom Content (Glass Card) */}
-                <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
-                  <div className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-3xl p-6 overflow-hidden relative group-hover:bg-white/20 transition-colors duration-300">
-
-                    <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${service.bgGradient} rounded-full blur-2xl -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-
-                    <h3 className="text-2xl font-bold text-white mb-3 font-cairo">
-                      {service.title}
-                    </h3>
-
-                    <p className="text-slate-300 text-sm leading-relaxed mb-6 line-clamp-2 group-hover:text-white transition-colors">
-                      {service.description}
-                    </p>
-
-                    <div className="flex items-center gap-2 text-yellow-400 font-bold text-sm tracking-wide uppercase">
-                      <span>{isRTL ? 'اعرف المزيد' : 'Learn More'}</span>
-                      <div className={`w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center transition-all duration-300 group-hover:bg-yellow-500 group-hover:text-black group-hover:translate-x-2 ${isRTL ? 'group-hover:-translate-x-2' : ''}`}>
-                          <ArrowRight className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} />
-                      </div>
-                    </div>
-
+          <div className="es-list">
+            {services.map((service, index) => {
+              const isActive = index === activeIndex;
+              const buttonId = `${instanceId}-button-${service.id}`;
+              const panelId = `${instanceId}-panel-${service.id}`;
+              return (
+                <div className="es-item" key={service.id}>
+                  <h3>
+                    <button id={buttonId} type="button" className="es-trigger" aria-expanded={isActive}
+                      aria-controls={panelId} onClick={() => setActiveIndex(index)}>
+                      <span className="es-number" aria-hidden="true">{service.id}</span>
+                      <span className="es-name">{service.title.split('&').map((part, index) => (
+                        <React.Fragment key={index}>
+                          {index > 0 && (
+                            <span
+                              style={{
+                                fontFamily: 'Arial, sans-serif',
+                                fontStyle: 'normal',
+                                fontWeight: 700,
+                              }}
+                            >
+                              &amp;
+                            </span>
+                          )}
+                          {part}
+                        </React.Fragment>
+                      ))}</span>
+                      <span className="es-toggle" aria-hidden="true">
+                        {isActive ? <Minus size={16} /> : <Plus size={16} />}
+                      </span>
+                    </button>
+                  </h3>
+                  <div id={panelId} role="region" aria-labelledby={buttonId} hidden={!isActive}>
+                    {isActive && (
+                      <motion.div className="es-panel-inner" initial={{ opacity: reduceMotion ? 1 : 0 }}
+                        animate={{ opacity: 1 }} transition={{ duration }}>
+                        <div className="es-mobile-visual" aria-hidden="true">
+                          <ServiceImage src={service.image} title={service.title} number={service.id} icon={service.icon} />
+                        </div>
+                        <p className="es-description">{service.description}</p>
+                        <Link to={service.href} className="es-link" aria-label={`${isRTL ? 'اعرف المزيد عن' : 'Learn more about'} ${service.title}`}>
+                          <span>{isRTL ? 'اعرف المزيد' : 'Learn More'}</span>
+                          <ArrowRight size={17} aria-hidden="true" />
+                        </Link>
+                      </motion.div>
+                    )}
                   </div>
                 </div>
-
-              </Link>
-            </motion.div>
-          ))}
-        </motion.div>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </section>
   );

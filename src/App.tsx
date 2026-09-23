@@ -17,6 +17,7 @@ import DermatologyLaser from "./pages/DermatologyLaser";
 import NutritionContouring from "./pages/NutritionContouring";
 import HairRestoration from "./pages/HairRestoration";
 import NotFound from "./pages/NotFound";
+import BookingSection from "./pages/BookingSection";
 
 const queryClient = new QueryClient();
 
@@ -50,6 +51,18 @@ const App = () => (
               <Route path="/doctors" element={<Doctors />} />
               <Route path="/offers" element={<Offers />} />
               <Route path="/contact-us" element={<ContactUs />} />
+              <Route path="*" element={<NotFound />} />
+              <Route path="/contact-us" element={<ContactUs />} />
+
+              <Route
+                path="/booking"
+                element={
+                  <div className="pt-32">
+                    <BookingSection />
+                  </div>
+                }
+              />
+
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Layout>

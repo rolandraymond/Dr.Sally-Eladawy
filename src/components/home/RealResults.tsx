@@ -7,11 +7,11 @@ import {
   ArrowLeft,
   ArrowRight,
   ExternalLink,
-  Scissors,
   Sparkles,
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { cn } from "@/lib/utils";
+import HairRootIcon from "@/components/icons/HairRootIcon";
 
 const VARS = {
   "--ink": "#132D29",
@@ -46,12 +46,36 @@ interface Specialty {
   services: Service[];
 }
 
+type SectionIconProps = { className?: string };
+
+const LipsIcon = ({ className }: SectionIconProps) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+    <path d="M2 12c3-1 5-6 8-5l2 1 2-1c3-1 5 4 8 5-3 1-5 6-10 6S5 13 2 12Z" />
+    <path d="M2 12c4 0 6-2 10-1 4-1 6 1 10 1M5 13c4 1 10 1 14 0" />
+  </svg>
+);
+
+const FullFaceIcon = ({ className }: SectionIconProps) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+    <path d="M5 9c0-4 2.5-7 7-7s7 3 7 7v4c0 4-4 9-7 9s-7-5-7-9V9Z" />
+    <path d="M8 9h2m4 0h2m-4 1-1 4h2m-4 3c2 1 4 1 6 0" />
+  </svg>
+);
+
+const JawlineIcon = ({ className }: SectionIconProps) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+    <path d="M5 3v6l2 6 5 4 5-4 2-6V3" />
+    <path d="M2 9l2 8 8 5 8-5 2-8" />
+    <path d="M10 12h4" />
+  </svg>
+);
+
 const specialties: Specialty[] = [
   {
     id: "lip-filler",
     labelEn: "Lip Filler",
     labelAr: "فيلر الشفايف",
-    icon: <Sparkles className="h-5 w-5" />,
+    icon: <LipsIcon className="h-5 w-5" />,
     mainLink: "/services/dermatology",
     services: [
       {
@@ -105,7 +129,7 @@ const specialties: Specialty[] = [
     id: "hair-transplant",
     labelEn: "Hair Transplant",
     labelAr: "زراعة الشعر",
-    icon: <Scissors className="h-5 w-5" />,
+    icon: <HairRootIcon className="h-5 w-5" />,
     mainLink: "/services/hair-restoration",
     services: [
       {
@@ -137,7 +161,7 @@ const specialties: Specialty[] = [
     id: "full-face",
     labelEn: "Full Face",
     labelAr: "الوجه بالكامل",
-    icon: <Sparkles className="h-5 w-5" />,
+    icon: <FullFaceIcon className="h-5 w-5" />,
     mainLink: "/services/dermatology-laser",
     services: [
       {
@@ -146,7 +170,7 @@ const specialties: Specialty[] = [
         labelAr: "الحالة 1",
         link: "/services/dermatology-laser",
         case: {
-          image: "/images/tungsten-dr.sally-cases.-acne-scare..png",
+          image: "/images/tungsten-dr.sally-full face filler.png",
         },
       },
       {
@@ -171,7 +195,7 @@ const specialties: Specialty[] = [
     id: "jawline-texas",
     labelEn: "Jawline (Texas)",
     labelAr: "تحديد الفك (تكساس)",
-    icon: <Sparkles className="h-5 w-5" />,
+    icon: <JawlineIcon className="h-5 w-5" />,
     mainLink: "/services/dermatology-laser",
     services: [
       {
@@ -281,25 +305,29 @@ const SpecialtyRail = ({
               className={cn(
                 "relative flex h-14 w-14 shrink-0 items-center justify-center rounded-full border transition-all duration-300",
                 isActive
-                  ? "border-[#132D29] bg-[#132D29] text-[#F5F1E9]"
-                  : "border-[#132D29]/12 bg-white/70 text-[#132D29]/35 group-hover:border-[#C6A66A] group-hover:text-[#132D29]"
+                  ? "border-black bg-black text-white"
+                  : "border-[#132D29]/12 bg-white/70 text-black/35 group-hover:border-black group-hover:text-black"
               )}
             >
-              {specialty.icon}
+              <span
+                className={cn(
+                  "inline-flex [&_img]:transition-all [&_img]:duration-300",
+                  isActive
+                    ? "[&_img]:[filter:brightness(0)_invert(1)] [&_img]:opacity-100"
+                    : "[&_img]:[filter:brightness(0)] [&_img]:opacity-[0.35] group-hover:[&_img]:opacity-100"
+                )}
+              >
+                {specialty.icon}
+              </span>
 
               {isActive && (
                 <motion.span
                   layoutId="specialty-ring"
-                  className="absolute -inset-1 rounded-full border border-[#C6A66A]/45"
-                  transition={{
-                    type: "spring",
-                    stiffness: 300,
-                    damping: 28,
-                  }}
+                  className="pointer-events-none absolute -inset-1 rounded-full border border-black"
+                  transition={{ type: "spring", stiffness: 300, damping: 28 }}
                 />
               )}
             </span>
-
             <span className="flex flex-col">
               <span
                 className={cn(

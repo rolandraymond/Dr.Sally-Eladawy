@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 import { Scissors, Droplets, Syringe, Sparkles, Activity, HeartPulse } from 'lucide-react';
+import Hairloss from "@/components/icons/Hairloss";
 
 
 const HairRootIcon = ({
@@ -17,18 +18,7 @@ const HairRootIcon = ({
 );
 
 
-const Hairloss = ({
-  className,
-}: {
-  className?: string;
-}) => (
-  <img
-    src="/icons/noun_Hairloss_7243346.svg"
-    alt=""
-    aria-hidden="true"
-    className={className}
-  />
-);
+
 
 const HairRestoration = () => {
   const { language } = useLanguage();

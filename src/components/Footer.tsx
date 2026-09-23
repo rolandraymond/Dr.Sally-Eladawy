@@ -1,8 +1,28 @@
-import React from 'react';
+import React, { useId } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Twitter, Linkedin, Sparkles } from 'lucide-react';
+import { motion, useReducedMotion } from 'framer-motion';
+import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Youtube,Sparkles } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
+
+const TikTokIcon = ({
+  className,
+  size = 24,
+}: {
+  className?: string;
+  size?: number | string;
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={size}
+    height={size}
+    fill="currentColor"
+    className={className}
+    aria-hidden="true"
+  >
+    <path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-5.201 1.743 2.895 2.895 0 0 1 2.31-4.64c.298 0 .595.046.879.137v-3.5a6.329 6.329 0 0 0-5.394 10.692 6.33 6.33 0 0 0 10.851-4.432V8.686A8.182 8.182 0 0 0 20.6 10.22V6.797a4.831 4.831 0 0 1-1.011-.111Z" />
+  </svg>
+);
 
 interface ContactItemProps {
   icon: React.ElementType;
@@ -14,6 +34,8 @@ interface ContactItemProps {
 
 const Footer = () => {
   const { t, isRTL } = useLanguage();
+  const sealPathId = useId();
+  const reduceMotion = useReducedMotion();
 
   const quickLinks = [
     { href: '/', label: isRTL ? 'الرئيسية' : 'Home' },
@@ -24,12 +46,14 @@ const Footer = () => {
     { href: '/contact-us', label: isRTL ? 'تواصل معنا' : 'Contact Us' },
   ];
 
+  
   const socialLinks = [
-    { icon: Facebook, href: 'https://facebook.com' },
-    { icon: Instagram, href: 'https://instagram.com' },
-    { icon: Twitter, href: 'https://twitter.com' },
-    { icon: Linkedin, href: 'https://linkedin.com' },
-  ];
+  { icon: Facebook, href: "https://www.facebook.com/DrSallyElAdawy2/" },
+  { icon: Instagram, href: "https://www.instagram.com/dr_sally_eladawy/" },
+  { icon: Youtube, href: "https://www.youtube.com/@sallyeladawy-k3y2e" },
+  { icon: TikTokIcon, href: "https://www.tiktok.com/@dr.sallyeladawy" },
+];
+
 
   const particles = Array.from({ length: 16 }).map((_, i) => ({
     id: i,
@@ -144,9 +168,9 @@ const Footer = () => {
 
           <div className="flex flex-col items-start gap-8">
             <div>
-              <h4 className="text-lg font-bold text-[#3d2f2a] mb-8 relative inline-block font-cairo">
+              <h4 className="relative mb-8 flex w-24 justify-center text-center text-lg font-bold text-[#3d2f2a] font-cairo">
                 {isRTL ? 'تابعونا' : 'Follow Us'}
-                <span className="absolute -bottom-3 left-0 w-8 h-[3px] rounded-full bg-gradient-to-r from-[#c9a15a] to-[#e0bd7a]" />
+                <span className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-8 h-[3px] rounded-full bg-gradient-to-r from-[#c9a15a] to-[#e0bd7a]" />
               </h4>
               <div className="flex gap-3">
                 {socialLinks.map((social, index) => (
@@ -163,23 +187,44 @@ const Footer = () => {
               </div>
             </div>
 
-            <motion.div
-              className="relative w-24 h-24 self-center opacity-90 motion-reduce:animate-none"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 22, repeat: Infinity, ease: 'linear' }}
+            <div
+              className="relative w-24 h-24 self-start shrink-0 opacity-90"
+              style={{ marginInlineStart: "-28px" }}
             >
-              <svg viewBox="0 0 100 100" className="w-full h-full">
-                <defs>
-                  <path id="sealPath" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0" />
-                </defs>
-                <text fontSize="7.2" fill="#c9a15a" letterSpacing="2">
-                  <textPath href="#sealPath">{sealText.repeat(2)}</textPath>
-                </text>
-              </svg>
-              <div className="absolute inset-0 flex items-center justify-center">
+              <motion.div
+                className="absolute inset-0"
+                animate={{ rotate: reduceMotion ? 0 : 360 }}
+                transition={reduceMotion
+                  ? { duration: 0 }
+                  : { duration: 22, repeat: Infinity, ease: 'linear' }}
+              >
+                <svg viewBox="0 0 100 100" className="w-full h-full overflow-visible" dir="ltr" aria-hidden="true">
+                  <defs>
+                    <path id={sealPathId} d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0" />
+                  </defs>
+                  <text
+                    key={isRTL ? 'ar' : 'en'}
+                    fontSize={isRTL ? 8 : 7.2}
+                    fill="#c9a15a"
+                    textAnchor="middle"
+                    direction={isRTL ? 'rtl' : 'ltr'}
+                    style={{
+                      fontFamily: isRTL ? 'Tahoma, Arial, sans-serif' : 'Arial, sans-serif',
+                      fontStyle: 'normal',
+                      letterSpacing: 0,
+                      unicodeBidi: 'isolate',
+                    }}
+                  >
+                    <textPath href={`#${sealPathId}`} startOffset="50%" textLength={228} lengthAdjust="spacing">
+                      {sealText}
+                    </textPath>
+                  </text>
+                </svg>
+              </motion.div>
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                 <Sparkles className="w-5 h-5 text-[#c9a15a]" />
               </div>
-            </motion.div>
+            </div>
           </div>
 
           <div>
@@ -269,22 +314,6 @@ const Footer = () => {
               </div>
             </div>
 
-            <div className="relative group">
-              <input
-                type="search"
-                placeholder={isRTL ? 'ابحث من هنا ...' : 'Search here...'}
-                className={`w-full bg-white/70 border border-[#c9a15a]/25 rounded-full py-3.5 ${
-                  isRTL ? 'pr-5 pl-14' : 'pl-5 pr-14'
-                } text-sm text-[#3d2f2a] placeholder:text-[#a3928a] focus:outline-none focus:border-[#c9a15a] focus:bg-white transition-all duration-300 shadow-inner`}
-              />
-              <button
-                className={`absolute top-1/2 -translate-y-1/2 bg-gradient-to-r from-[#c9a15a] to-[#e0bd7a] rounded-full p-2.5 text-white hover:shadow-[0_0_15px_rgba(201,161,90,0.5)] transition-all duration-300 hover:scale-105 ${
-                  isRTL ? 'left-1.5' : 'right-1.5'
-                }`}
-              >
-                <Sparkles className="w-4 h-4" />
-              </button>
-            </div>
           </div>
         </div>
 {/* ================= Bottom Bar ================= */}

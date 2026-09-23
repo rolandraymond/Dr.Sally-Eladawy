@@ -6,7 +6,6 @@ import CTASection from '@/components/home/CTASection';
 import VideoHero from '@/components/home/VideoHero';
 import VideoGallery from '@/components/home/VideoGallery';
 import RealResults from '@/components/home/RealResults';
-
 const Index = () => {
   return (
     <>
@@ -20,6 +19,7 @@ const Index = () => {
       {/* <TechnologiesSection /> */}
       <WhyUsSection />
       <CTASection />
+
     </>
   );
 };

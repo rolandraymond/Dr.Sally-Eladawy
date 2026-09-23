@@ -38,20 +38,20 @@ const services: ServiceItem[] = [
     titleEn: "Dermatology & Laser",
     titleAr: "الجلدية والليزر",
     descriptionEn:
-      "Advanced skin, laser, and aesthetic treatments selected according to the needs of every case.",
+      "Advanced skin treatments, laser procedures, and aesthetic injectables, with medical supervision and a plan suited to each case.",
     descriptionAr:
-      "علاجات متقدمة للبشرة، وإجراءات الليزر والحقن التجميلية، بخطة تناسب طبيعة كل حالة.",
+      "علاجات متقدمة للبشرة، وإجراءات الليزر والحقن التجميلية، بإشراف طبي وخطة تناسب طبيعة كل حالة.",
     icon: ScanFace,
     href: "/services/dermatology-laser",
   },
   {
     id: "nutrition",
-    titleEn: "Clinical Nutrition & Body Contouring",
+    titleEn: "Medical Nutrition & Body Contouring",
     titleAr: "التغذية العلاجية ونحت الجسم",
     descriptionEn:
-      "Personalized nutrition plans and advanced body-contouring technologies for balanced, natural results.",
+      "Personalized nutrition plans, advanced body-contouring techniques, and modern technologies designed to achieve balanced, natural-looking results.",
     descriptionAr:
-      "خطط غذائية مخصصة وتقنيات متقدمة لنحت الجسم لتحقيق نتائج متوازنة وطبيعية.",
+      "خطط غذائية مخصصة، وتقنيات متقدمة لنحت الجسم وأجهزة حديثة لتحقيق نتائج متوازنة وطبيعية.",
     icon: Activity,
     href: "/services/nutrition-contouring",
   },
@@ -60,9 +60,9 @@ const services: ServiceItem[] = [
     titleEn: "Hair Transplantation & Treatment",
     titleAr: "زراعة وعلاج الشعر",
     descriptionEn:
-      "Specialized hair transplantation and treatment solutions tailored to every individual case.",
+      "Specialized solutions for hair transplantation and hair concerns, with a personalized plan designed to achieve the best possible outcome.",
     descriptionAr:
-      "حلول متخصصة لزراعة الشعر وعلاج مشكلاته، مع خطة مناسبة لكل حالة.",
+      "حلول متخصصة لزراعة الشعر وعلاج مشكلاته، مع خطة مناسبة لكل حالة للحصول على أفضل نتيجة ممكنة.",
     icon: HairRootIcon,
     href: "/services/hair-restoration",
   },
@@ -114,27 +114,27 @@ const ServicesSection = () => {
           }}
           className="mx-auto mb-16 max-w-3xl text-center md:mb-20"
         >
-          <span className="mb-5 block text-[11px] font-semibold uppercase tracking-[0.35em] text-[#A24B3B]">
-            {isRTL ? "رعاية متخصصة" : "Specialized Care"}
+         <span className="mb-5 block text-[11px] font-semibold uppercase tracking-[0.35em] text-[#A24B3B]">
+            {isRTL ? "خدماتنا" : "Our Services"}
           </span>
 
           <h2
             className={cn(
               "text-4xl font-medium uppercase tracking-[0.12em] text-[#211D19] md:text-5xl",
-              isRTL
-                ? "font-mudir tracking-normal"
-                : "font-neometric"
+              isRTL ? "font-mudir tracking-normal" : "font-neometric"
             )}
           >
-            {isRTL ? "خدماتنا الرئيسية" : "Our Main Services"}
+            {isRTL
+              ? "كل خدمة بخطة تناسبك"
+              : "Every Service Starts With a Plan That Fits You"}
           </h2>
 
           <div className="mx-auto mt-6 h-px w-16 bg-[#C9A761]" />
 
           <p className="mx-auto mt-7 max-w-2xl text-sm leading-7 text-[#756B64] md:text-base">
             {isRTL
-              ? "كل خدمة بتبدأ بتقييم دقيق وخطة مناسبة، علشان نوصل لأفضل نتيجة ممكنة لكل حالة."
-              : "Every service begins with a precise assessment and a personalized plan to achieve the best possible result."}
+              ? "من الجلدية والليزر، للتغذية ونحت الجسم، وزراعة وعلاج الشعر .. كل خدمة بتبدأ بتقييم دقيق، علشان نوصل لأفضل نتيجة ممكنة."
+              : "From dermatology and laser treatments to nutrition, body contouring, and hair restoration, every service starts with a thorough assessment to find the most suitable approach."}
           </p>
         </motion.div>
 
@@ -203,11 +203,8 @@ const ServiceItemCard = ({
       variants={variants}
       className={cn(
         "relative px-5 text-center sm:px-8 lg:px-12",
-        index !== 0 &&
-          "md:border-l md:border-[#211D19]/10",
-        isRTL &&
-          index !== services.length - 1 &&
-          "md:border-l-0 md:border-r md:border-[#211D19]/10"
+        index > 0 && "md:border-[#211D19]/10",
+        index > 0 && (isRTL ? "md:border-r" : "md:border-l")
       )}
     >
       <Link

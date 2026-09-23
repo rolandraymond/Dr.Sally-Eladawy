@@ -275,23 +275,21 @@ const Navbar = () => {
                 ))}
               </nav>
 
-              <button
-                className="col-start-5 row-start-1 justify-self-end whitespace-nowrap border px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.12em] 2xl:px-6 2xl:text-[12px] 2xl:tracking-[0.15em] transition-colors duration-300"
-                style={{
-                  borderColor: "var(--gold)",
-                  color: "var(--gold-light)",
-                }}
-                onMouseEnter={(event) => {
-                  event.currentTarget.style.background = "var(--gold)";
-                  event.currentTarget.style.color = "var(--ink)";
-                }}
-                onMouseLeave={(event) => {
-                  event.currentTarget.style.background = "transparent";
-                  event.currentTarget.style.color = "var(--gold-light)";
-                }}
-              >
-                {language === "en" ? "Book an Appointment" : "احجز موعد"}
-              </button>
+       <a
+  href="/booking"
+  className="col-start-5 row-start-1 justify-self-end whitespace-nowrap border px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.12em] 2xl:px-6 2xl:text-[12px] 2xl:tracking-[0.15em] transition-colors duration-300"
+  style={{ borderColor: 'var(--gold)', color: 'var(--gold-light)' }}
+  onMouseEnter={(event) => {
+    event.currentTarget.style.background = 'var(--gold)';
+    event.currentTarget.style.color = 'var(--ink)';
+  }}
+  onMouseLeave={(event) => {
+    event.currentTarget.style.background = 'transparent';
+    event.currentTarget.style.color = 'var(--gold-light)';
+  }}
+>
+  {language === 'en' ? 'Book an Appointment' : 'احجز موعد'}
+</a>
             </div>
           {/* ---- MOBILE / TABLET: centered emblem, balanced hamburger ---- */}
           <div className="grid xl:hidden grid-cols-[44px_1fr_44px] items-center container mx-auto px-4 sm:px-6 h-[68px]">
@@ -460,12 +458,9 @@ const Navbar = () => {
                   {language === 'en' ? 'العربية' : 'English'}
                 </button>
               </div>
-              <button
-                className="w-full py-4 text-sm font-semibold uppercase tracking-[0.15em] border"
-                style={{ borderColor: 'var(--gold)', color: 'var(--gold-light)' }}
-              >
-                {language === 'en' ? 'Book an Appointment' : 'احجز موعد'}
-              </button>
+            <Link href="/booking" onClick={() => setIsOpen(false)} className="block border border-[#c9a15a] px-5 py-3 text-center text-[#c9a15a]">
+              {language === 'en' ? 'Book an Appointment' : 'احجز موعد'}
+            </Link>
             </div>
           </motion.div>
         )}

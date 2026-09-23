@@ -192,7 +192,7 @@ export const translations: Record<Language, TranslationContent> = {
       damietta: "Damietta Branch",
       newDamietta: "New Damietta Branch",
       workingHours: "Working Hours",
-      hours: "Daily from 1 AM to 1 PM",
+      hours: "Daily from 1 PM to 1 AM",
       copyright: "© 2026 Tungsten Media. All rights reserved.",
       followUs: "Follow Us",
     },

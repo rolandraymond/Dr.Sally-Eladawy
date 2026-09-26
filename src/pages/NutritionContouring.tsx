@@ -14,15 +14,8 @@ const NutritionContouring = () => {
         : 'Nutrition programs tailored to your health goals',
     },
     {
-      icon: Zap,
-      title: language === 'ar' ? 'سمارت ليبو' : 'Smart Lipo',
-      description: language === 'ar'
-        ? 'تقنية متقدمة لإذابة الدهون ونحت الجسم'
-        : 'Advanced technology for fat melting and body sculpting',
-    },
-    {
       icon: Activity,
-      title: language === 'ar' ? 'أوندا كولويفز' : 'Onda Coolwaves',
+      title: language === 'ar' ? 'أوندا' : 'Onda',
       description: language === 'ar'
         ? 'موجات باردة لتقليل السيلوليت والدهون'
         : 'Coolwaves for cellulite and fat reduction',
@@ -52,29 +45,72 @@ const NutritionContouring = () => {
 
   return (
     <>
-      <section className="pt-32 pb-20 bg-gradient-to-b from-muted to-background">
-        <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center max-w-3xl mx-auto"
-          >
-            <span className="text-primary font-medium text-sm uppercase tracking-wider">
-              {language === 'ar' ? 'خدماتنا' : 'Our Services'}
-            </span>
-            <h1 className="text-4xl md:text-5xl font-bold text-secondary mt-2 mb-6">
-              {language === 'ar' ? 'التغيير يبدأ من جوّه' : 'Nutrition & Body Contouring'}
-            </h1>
-            <p className="text-lg text-muted-foreground">
-              {language === 'ar'
-                ? 'خطط تغذية وتقنيات متقدمة لنحت الجسم، حسب احتياجات وأهداف كل حالة.'
-                : 'A comprehensive wellness journey from custom nutrition plans to advanced body sculpting.'
-              }
-            </p>
-          </motion.div>
+    <section className="section-padding">
+      <div className="container-custom">
+        <div
+          dir={language === 'ar' ? 'rtl' : 'ltr'}
+          className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-6"
+        >
+          {services.map((service, index) => (
+            <motion.div
+              key={service.title}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: index * 0.08 }}
+              className={`
+                group relative h-full overflow-hidden rounded-3xl
+                border border-accent/15 bg-background p-7
+                shadow-sm transition-[border-color,box-shadow] duration-300
+                hover:border-accent/40 hover:shadow-lg
+                lg:col-span-2
+                ${index === 3 ? 'lg:col-start-2' : ''}
+                ${
+                  index === 4
+                    ? 'md:col-span-2 md:w-[calc(50%-0.75rem)] md:justify-self-center lg:col-span-2 lg:col-start-4 lg:w-full'
+                    : ''
+                }
+              `}
+            >
+              <div
+                className="
+                  mb-6 flex h-16 w-16 items-center justify-center
+                  rounded-2xl bg-accent/10 text-accent
+                  transition-colors duration-300
+                  group-hover:bg-accent group-hover:text-white
+                "
+              >
+                <service.icon strokeWidth={1.6} className="h-8 w-8" />
+              </div>
+
+             <h3 className="mb-3 text-xl font-semibold text-secondary">
+                {language !== 'ar' && service.title === 'Weight Follow-up' ? (
+                  <>
+                    Weight Follow
+                    <span style={{ fontFamily: 'Arial, sans-serif' }}>-</span>
+                    up
+                  </>
+                ) : (
+                  service.title
+                )}
+              </h3>
+
+              <p className="text-sm leading-7 text-muted-foreground">
+                {service.description}
+              </p>
+
+              <div
+                className="
+                  mt-7 h-1 w-10 rounded-full bg-accent/30
+                  transition-all duration-300
+                  group-hover:w-20 group-hover:bg-accent
+                "
+              />
+            </motion.div>
+          ))}
         </div>
-      </section>
+      </div>
+    </section>
 
       <section className="section-padding">
         <div className="container-custom">
